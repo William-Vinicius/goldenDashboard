@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../src/css/styles.css">
+    
+    <title>Document</title>
+</head>
+<body>
+            <!-- Como eu uso esse menu em outras páginass pohaaaaaaaaaa -->
+    <div class="menu-dad">
+        <input type="checkbox" name="" id="menu-check">
+        <label for="menu-check" id="menu-draw">MENU</label>
+    
+    <div class="menu-bar">
+        <ul>
+            <a href="../index.html"><li class="menu-box">Principal</li></a>
+            <a href="#db1"><li class="menu-box">Dashboard1</li></a>
+            <a href="#db2"><li class="menu-box">Dashboard2</li></a>
+            <a href="#db3"><li class="menu-box">Dashboard3</li></a>
+        </ul>
+    </div>
+    </div>
+    <!-- Final do menu -->
+    
+    <div class="dad">
+        <div class="container">
+            <header>
+                <h1>Título</h1>
+            </header>
+
+            <div class="info-search">   
+
+                <div class="content-box">
+
+                    <input type="button" class="content-button" value="Visualização de Gráfico">
+
+                    <!-- Boatão de adicionar novo -->
+
+                </div>
+
+                <div class="content-box">
+                    <select id="months" name="months">
+                        <option onclick= "setmonth('jan')">Janeiro</option>
+                        <option onclick= "setmonth('feb')">Fevereiro</option>
+                        <option onclick= "setmonth('mar')">Março</option>
+                        <option onclick= "setmonth('apr')">Abril</option>
+                        <option onclick= "setmonth('may')">Maio</option>
+                        <option onclick= "setmonth('jun')">Junho</option>
+                        <option onclick= "setmonth('jul')">Julho</option>
+                        <option onclick= "setmonth('aug')">Agosto</option>
+                        <option onclick= "setmonth('sep')">Setembro</option>
+                        <option onclick= "setmonth('oct')">Outubro</option>
+                        <option onclick= "setmonth('nov')">Novembro</option>
+                        <option onclick= "setmonth('dec')">Dezembro</option>
+                    </select>
+
+                    <form action="../src/php/database.php" method="get">
+
+                        <div class="dates">
+                            <input type="date" name="" id="">
+                            <spam class="between">-</spam>
+                            <input type="date" name="" id="">
+                        </div>
+                        
+                        <input type="submit" value="Pesquisar">
+                    </form>
+                    <form action="FILTRAR POR PALAVRAS AQUI" method="get">
+                        <input type="search" name="txFilter" id="txFilter" class="filter" placeholder="Filtrar">
+                        <label for="btFilter">
+                            
+                            <!-- Ícone de pesquisa -->
+                            
+                        </label>
+                        <input type="submit" value="filtrar" id="btFilter">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
