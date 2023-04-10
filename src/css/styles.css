@@ -58,7 +58,11 @@ position: absolute;
 
 #menu-draw{
     cursor: pointer;
+    padding: 1rem 0rem 0rem 2rem
+
 }
+
+
 #menu-check{
     display: none;
 }
@@ -68,7 +72,7 @@ div.menu-bar{
     display: flex;
     flex-direction: column;
     padding: .5rem 0rem;
-    color: whitesmoke;   
+    color: #f5f5f599;   
     width:fit-content;
     height: 30rem;
     transform: translateX(-500px);
@@ -82,10 +86,13 @@ li.menu-box{
     margin: .2rem 0rem;
     color: whitesmoke;
     position: relative;
-    transform: translateY(300px)4
+    transform: translateY(300px);
 }
 li:hover{
  background-color:#00000066;
+}
+li:active{
+    background-color: #DDDDDD66;
 }
 
 #menu-check:checked ~ .menu-bar{
@@ -96,5 +103,6 @@ li:hover{
 #menu-check:checked ~ div > ul > a > li.menu-box{
     transition-delay: .1s;
     transition-duration: .25s;
-    transform: translateY(0px)
+    transform: translateY(0px);
+    
 }
