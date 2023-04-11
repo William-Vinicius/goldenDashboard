@@ -1,10 +1,12 @@
+/* Principal */
+
 *{
     margin:0;
     padding:0;
     text-decoration: none;
 }
 body{
-    background-color: #666
+    background-color: #282a49
 }
 header{
     margin: 2rem;
@@ -17,14 +19,14 @@ header{
     padding: 2rem;
 }
 .container{
-    background-color: #444;
+    background-color: #737DEB;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 25px;
     padding: 2rem;
     margin: 2rem;
-    color: whitesmoke;    
+    color: #e2c051;    
 }
 ul{
     list-style-type: none;
@@ -35,20 +37,27 @@ a{
 li.redirect{
     width: 20rem;
     font: bold 1.5rem Arial, sans-serif;
-    background-color:gray;
+    background-color:#3E469E;
     padding: 3rem 1.5rem;
     margin: 2rem;
     border-radius: 15px;
     text-align: center;
-    color: black;
-    box-shadow: 10px 10px 15px 0px rgba(0,0,0,0.25);
+    color: #0f1435;
+    box-shadow: 10px 10px 15px 0px #00000040;
 }
 li.redirect:hover{
-    background-color: rgb(122, 122, 122);
+    background-color: #4b52a1
 }
 li.redirect:active{
-    background: rgb(145, 145, 145)
+    background: #666dc5;
+    box-shadow: 0px 0px 0px 0px
 }
+
+
+/* Data boards */
+
+    
+
 
 /* Menu retratil */
 
@@ -61,7 +70,6 @@ position: absolute;
     padding: 1rem 0rem 0rem 2rem
 
 }
-
 
 #menu-check{
     display: none;
@@ -88,9 +96,11 @@ li.menu-box{
     position: relative;
     transform: translateY(300px);
 }
+
 li:hover{
  background-color:#00000066;
 }
+
 li:active{
     background-color: #DDDDDD66;
 }
