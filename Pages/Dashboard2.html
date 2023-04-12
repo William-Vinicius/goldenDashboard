@@ -81,8 +81,23 @@
                                 <input type="date" name="dt-search-end" class="dt-input">
                             </div>
                     </div>
+                    <!-- PARTE QUE ESTÁ SENDO MUDADA COMPARADA AO 1 -->
+                    <div class="rows centraliser">
+                        <div class="columns">
+                            <div class="rows">
+                                <input type="radio" name="TransactionChice" id="trans-dep" checked> <label for="trans-dep" class="dark-font">Depósitos </label>
+                            </div>
+                            <div class="rows">
+                                <input type="radio" name="TransactionChice" id="trans-saq"> <label for="trans-saq" class="dark-font">Saques</label>
+                            </div>
+                        </div>
+                        <input type="submit" value="Pesquisar" class="bt-color src-button">
+
+                    </div>
+
+                    <!-- FIM DA PARTE ÚNICA -->
                         
-                    <input type="submit" value="Pesquisar" class="bt-color src-button">
+                    
 
                     </form>
                     <div class="rows space-down">
@@ -93,7 +108,7 @@
                                 <i class="ph-bold ph-magnifying-glass" style="color:#282a49; font-size: 1.3rem; cursor: pointer;"></i>
                                
                             </label>
-                            <input type="submit" value="filtrar" id="btFilter">
+                            <input type="submit" value="filtrar" id="btFilter" class="no-display">
                         </form>
                     </div>
                 </div>

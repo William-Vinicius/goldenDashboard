@@ -76,7 +76,15 @@ a{
     -webkit-box-shadow: 0 0;
             box-shadow: 0 0;
 }
-
+.dark-font{
+    color:#282a49;
+    font: bold 1rem Arial, sans-serif;
+}
+.centraliser{
+    justify-content: space-around;
+    align-items: center;
+    margin: .5rem;
+}
 
 /* Data boards */
 
@@ -126,7 +134,7 @@ a{
 .src-button{
     font: bold 1rem Arial, sans-serif;
     padding: .6rem 1rem;
-    margin: 1rem .5rem;
+    margin: 1rem 0.25rem 1rem 1.5rem;
     justify-self: center;
     border-radius: 15px;
     text-align: center;
@@ -137,6 +145,7 @@ a{
 input{
     font-size: 1rem;
     padding: .1rem;
+    margin: .1rem;
 }
 
 .txInput{
@@ -208,6 +217,7 @@ div.menu-bar{
     color: #f5f5f599;   
     width:fit-content;
     height: 30rem;
+    transition-duration: .25s;
     transform: translateX(-500px);
 }
 
@@ -219,6 +229,7 @@ li.menu-box{
     margin: .2rem 0rem;
     color: whitesmoke;
     position: relative;
+    transition-delay: .5s;
     transform: translateY(300px);
 }
 
