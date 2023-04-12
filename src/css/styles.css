@@ -168,7 +168,7 @@ input{
     font-weight: bold;
 }
 
-#btFilter
+.no-display
 {
     display: none;
 }
@@ -189,7 +189,7 @@ nav>h1{
     display: none;
 }
 
-#menu-draw{
+.pointer{
     cursor: pointer;
 }
 .menu-margin{
@@ -222,13 +222,31 @@ li.menu-box{
     transform: translateY(300px);
 }
 
-li:hover{
+li.menu-box:hover{
  background-color:#00000066;
 }
 
-li:active{
+li.menu-box:active{
     background-color: #99999966;
 }
+
+li.menu-leader{
+    width: 10rem;
+    font: bold italic 1.5rem "Times New Roman";
+    padding: 0rem .5rem;
+    margin: .5rem 0rem;
+    align-self: center;
+    text-align: center;
+    /* border-bottom-width: 2px;
+    border-bottom-color: #999999AA;
+    border-bottom-style: solid; */
+    color:#DDDDDDAA ;
+}
+
+.menu-leader:hover{
+    color:#FFFFFFAA
+}
+
 .ph-x{
     display: none;
 }
@@ -248,9 +266,27 @@ li:active{
     transition-duration: .5s;
 }
 
-#menu-check:checked ~ div > ul > a > li.menu-box{
+#menu-check:checked ~ div > ul> div> ul> a > li.menu-box{
     transition-delay: .1s;
     transition-duration: .25s;
     transform: translateY(0px);
-    
+}
+.drop-content{
+    position: absolute;
+    transform: translateY(-1000px);
+}
+
+input.drop-btn:checked ~  ul.drop-content{
+    position: relative;
+    transition-delay: .1s;
+    transition-duration: .15s;
+    transform: translateY(0px);
+}
+
+input.drop-btn:checked ~ li.menu-leader{
+    align-self: baseline;
+    text-align: left;
+    margin-top: 1rem;
+    color: #FFFFFFAA;
+    font-style: normal;
 }
