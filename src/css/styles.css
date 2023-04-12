@@ -116,14 +116,15 @@ a{
     width: 13rem;
     padding: .6rem 1rem;
     margin: 2rem 1rem;
-    /* border-radius: 15px; */
+    border-radius: 30px;
     text-align: center;
     cursor: pointer;
+    -webkit-box-shadow: 5px 5px 10px 0px #00000040;
+            box-shadow: 5px 5px 10px 0px #00000040;
 }
 
 .src-button{
     font: bold 1rem Arial, sans-serif;
-    /* width: 13rem; */
     padding: .6rem 1rem;
     margin: 1rem .5rem;
     justify-self: center;
@@ -184,6 +185,9 @@ input{
 div.menu-dad{
 position: absolute;
 }
+nav>h1{
+    display: none;
+}
 
 #menu-draw{
     cursor: pointer;
@@ -224,6 +228,19 @@ li:hover{
 
 li:active{
     background-color: #99999966;
+}
+.ph-x{
+    display: none;
+}
+
+#menu-check:checked ~ div>label>i.ph-x{
+    display: block;
+    color: #0f1435;
+}
+
+#menu-check:checked ~ div>label>i.ph-list{
+    display: none;
+    color: #0f1435;
 }
 
 #menu-check:checked ~ .menu-bar{
