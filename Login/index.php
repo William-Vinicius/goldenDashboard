@@ -16,9 +16,9 @@
                 <h1 class="center-text">Bem Vindo</h1>
                 <h2 class="center-text dark-font">Faça seu Login de membro</h2>
             </header>
-            <form action="precess.php" method="POST" class="columns centraliser">
-                <input type="email" name="userEmail" class="login-input txInput" placeholder="Usuário" required>
-                <input type="password" name="userPassword" class="login-input txInput" placeholder="Senha" required>
+            <form action="test.php" method="POST" class="columns centraliser">
+                <input type="text" name="login" class="login-input txInput" placeholder="Usuário" required>
+                <input type="password" name="password" class="login-input txInput" placeholder="Senha" required>
                 <input type="submit" value="Acessar" class="bt-color switch-button login-btn">
             </form>
         </div>
