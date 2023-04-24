@@ -93,6 +93,13 @@ a{
 
 /* Data boards */
 
+
+.error-message{
+    font-size: 1.2rem;
+    color: crimson;
+    margin: .5rem;
+}
+
 .info-search{
     display: flex;
     flex-direction: row;
@@ -196,7 +203,9 @@ input{
     margin-top: 2rem;
 }
 
+
 /* Menu retratil */
+
 
 div.menu-dad{
 position: absolute;
