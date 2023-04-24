@@ -1,5 +1,6 @@
 <?php 
-include_once 'connection.php';
+    include_once 'classes/connection.php'; 
+    $user = new User();
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +13,44 @@ include_once 'connection.php';
     <title>Teste Login</title>
 </head>
 <body>  
+
+    <?php
+
+        function Redirect($url, $permanent = false)
+        {
+        header('Location: ' . $url, true, $permanent ? 301 : 302);
+        exit();
+        }
+
+        function getMessage($msg){
+            if(isset($_SESSION[$msg])){
+                echo $_SESSION[$msg];
+                unset($_SESSION[$msg]);
+            }
+        }
+        
+        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+        if (!empty($dados['sendLogin'])){
+            $dbverify = $user->connection();
+
+            if($dbverify == true){
+                $loginValidation = $user->login( $dados['login'], $dados['password'] );
+            
+                if($loginValidation == true){
+                    Redirect('/cadastro.php', false);
+                }
+                else{
+                    $_SESSION['message'] = "Usuário ou senha incorretas";
+                }
+            }
+            else{
+                $_SESSION['message'] = "Erro ao conectar com o banco de dados";
+            }
+
+        }
+    ?>
+
     <div class="dad columns">
         <div class="container columns centraliser">
         
@@ -29,40 +68,7 @@ include_once 'connection.php';
             
         </div>
         <div class ="error-message">
-            <?php
-
-                $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
-
-                if (!empty($dados['sendLogin'])) {
-                        // var_dump($dados);
-
-                    $query = "SELECT * FROM tbUser WHERE loginUser LIKE :username LIMIT 1";
-
-                    $resultQuery = $pdo->prepare($query);
-                    $resultQuery->bindParam(':username', $dados['login'], PDO::PARAM_STR);
-
-                    $resultQuery->execute();
-                   
-                    if($resultQuery->rowCount() > 0){
-                        $validation = $resultQuery->fetch(PDO::FETCH_ASSOC);
-                        // var_dump($validation);
-
-                        // if (password_verify($dados['password'], $validation['passwordUser'])) {
-                        if($dados['password'] == $validation['passwordUser']){
-                            echo "Só sucesso BD";
-                        }
-                        else{
-                            echo "Problema na senha uhuuu";
-                        }
-                    }
-                    else{
-                        echo "Usuário ou Senha incorreta, meu confrade";
-                    }
-                    
-                    
-                }
-            ?>
+            <?php getMessage('message')?> 
         </div>
     </div>
 
