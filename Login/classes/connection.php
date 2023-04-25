@@ -35,15 +35,18 @@
         {
             global $pdo;
 
-            $query = "SELECT idUser, passwordUser FROM tbUser WHERE loginUser LIKE :username LIMIT 1;";
+            $query = "SELECT idUser, passwordUser, nameUser FROM tbUser WHERE loginUser LIKE :username LIMIT 1;";
             $resultQuery = $pdo->prepare($query);
             $resultQuery->bindParam(':username', $username, PDO::PARAM_STR);
             $resultQuery->execute();
 
             if($resultQuery->rowCount() > 0){
                 $validation = $resultQuery->fetch(PDO::FETCH_ASSOC);
+                var_dump($validation);
 
                 if (password_verify($password ,$validation['passwordUser'])) {
+                    $_SESSION['id'] = $validation['idUser'];
+                    $_SESSION['name'] = $validation['nameUser'];
                     return true;
                 }
                 else{

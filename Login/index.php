@@ -1,6 +1,7 @@
 <?php 
     include_once 'classes/connection.php'; 
     $user = new User();
+    ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +27,11 @@
                 echo $_SESSION[$msg];
                 unset($_SESSION[$msg]);
             }
+        }
+
+        if(isset($_SESSION['id']) AND isset($_SESSION['name'])){
+            Redirect("cadastro.php");
+            
         }
         
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -60,7 +66,7 @@
             </header>
 
             <form action="" method="POST" class="columns centraliser">
-                <input type="text" name="login" class="login-input txInput" placeholder="Usuário" maxlength="16" required>
+                <input type="text" name="login" class="login-input txInput" placeholder="Usuário" maxlength="16" value="<?php if( !empty($dados['login'])){ echo $dados['login']; } ?>" required>
                 <input type="password" name="password" class="login-input txInput" placeholder="Senha" maxlength="16" required>
                 <input type="submit" value="Acessar" name="sendLogin" class="bt-color switch-button login-btn">
             </form>

@@ -10,14 +10,25 @@
 </head>
 
 <body>
-    <?php 
-        include_once 'classes/connection.php';
-        $user = new User();
+    <?php
+            include_once 'classes/connection.php';
+            $user = new User();
+            ob_start();
 
-        function Redirect($url, $permanent = false){
-            header('Location: ' . $url, true, $permanent ? 301 : 302);
-            exit();
+
+            function Redirect($url, $permanent = false){
+                header('Location: ' . $url, true, $permanent ? 301 : 302);
+                exit();
+            }
+
+        if(!isset($_SESSION['id']) AND !isset($_SESSION['name'])){
+            $_SESSION['message'] = "Necessário realizar o login para acessar";
+            Redirect("index.php");
+            
         }
+    ?>
+
+    <?php 
 
         function getMessage($msg){
             if(isset($_SESSION[$msg])){
@@ -41,7 +52,6 @@
                 else{
                     echo "deu ruim";
                 }
-                
             }  
             else{
                 // $_SESSION['message'] = "Os campos Senha e Confirmar Senha estão diferentes!";
@@ -51,7 +61,7 @@
         
     ?>
     <div class="menu-margin">
-        <a href="login.php"><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
+        <a href="exit.php"><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
     </div>
 
     <div class="dad">
@@ -65,7 +75,7 @@
                 <div class="rows">
                     <div class="columns half-margin">
                         <label class="dark-font" for="">Nome:</label>
-                        <input type="text" name="name" id="" required class="txInput signup-input" maxlength="32">
+                        <input type="text" name="name" id="" required class="txInput signup-input mid-input" maxlength="32">
                     </div>
 
                     <div class="columns half-margin">
@@ -81,7 +91,7 @@
 
                 <div class="columns half-margin">
                     <label class="dark-font" for="">Número:</label>
-                    <input type="text" name="phone" id="" required class="txInput signup-input short-input" maxlength="16">
+                    <input type="text" name="phone" id="" required class="txInput signup-input" maxlength="16">
                 </div>
 
                 <div class="rows">
