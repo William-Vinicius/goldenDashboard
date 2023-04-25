@@ -330,3 +330,20 @@ input.drop-btn:checked ~ li.menu-leader{
 .login-btn{
     margin: 1rem;
 }
+
+.half-margin{
+    margin: .5rem
+}
+.signup-input{
+    width: 14rem;
+    border-radius: 5px;
+    border: 2px solid #666dc5;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+}
+.long-input{
+    width: 25rem;
+}
+.short-input{
+    width: 10rem
+}

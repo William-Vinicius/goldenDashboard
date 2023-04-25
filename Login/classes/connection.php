@@ -5,7 +5,7 @@
     {
 
 
-        public $pdo;
+        protected $pdo;
 
         function connection(){
             
@@ -56,6 +56,34 @@
         }
         public function signUp($name, $login, $email, $phone, $password)
         {
+            global $pdo;
+
+            $query = "SELECT idUser FROM tbUser WHERE loginUser LIKE :username LIMIT 1;";
+            $resultQuery = $pdo->prepare($query);
+            $resultQuery->bindParam(':username', $login, PDO::PARAM_STR);
+            $resultQuery->execute();
+
+            if($resultQuery->rowCount() > 0){
+                return false;
+                // $_SESSION['warning'] = "Login não disponível";
+                echo "erro de login";
+            }
+            else{
+                $password = password_hash($password, PASSWORD_DEFAULT);
+
+                $query = "insert into tbUser (nameUser, loginUser, emailUser, phoneUser, passwordUser)
+                VALUES (:name, :login, :email, :phone, :password );";
+                $resultQuery = $pdo->prepare($query);
+
+                $resultQuery->bindParam(':name', $name, PDO::PARAM_STR);
+                $resultQuery->bindParam(':login', $login, PDO::PARAM_STR);
+                $resultQuery->bindParam(':email', $email, PDO::PARAM_STR);
+                $resultQuery->bindParam(':phone', $phone, PDO::PARAM_STR);
+                $resultQuery->bindParam(':password', $password, PDO::PARAM_STR);
+                $resultQuery->execute();
+                
+                return true;
+            }
             
         }
     }

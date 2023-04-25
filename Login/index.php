@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href="src/css/styles.css" >
+    <link rel="stylesheet" type="text/css" href="styles.css" >
     <link rel="shortcut icon" href="src/img/favcon.ico" type="image/x-icon">
     <title>Teste Login</title>
 </head>
@@ -16,10 +16,9 @@
 
     <?php
 
-        function Redirect($url, $permanent = false)
-        {
-        header('Location: ' . $url, true, $permanent ? 301 : 302);
-        exit();
+        function Redirect($url, $permanent = false){
+            header('Location: ' . $url, true, $permanent ? 301 : 302);
+            exit();
         }
 
         function getMessage($msg){
