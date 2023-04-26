@@ -32,10 +32,10 @@
 
                         
                         <ul class="drop-content">
-                            <a href="../index.html"><li class="menu-box">Principal</li></a>
-                            <a href="dashboard1.html"><li class="menu-box">Dashboard1</li></a>
-                            <a href="dashboard2.html"><li class="menu-box">Dashboard2</li></a>
-                            <a href="dashboard3.html"><li class="menu-box">Dashboard3</li></a>
+                            <a href="#Link 1"><li class="menu-box">Principal</li></a>
+                            <a href="#Link 2"><li class="menu-box">Dashboard1</li></a>
+                            <a href="#Link 3"><li class="menu-box">Dashboard2</li></a>
+                            <a href="#Link 4"><li class="menu-box">Dashboard3</li></a>
                         </ul>
                     </div>
                 </ul>

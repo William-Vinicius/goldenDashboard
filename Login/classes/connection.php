@@ -1,12 +1,11 @@
 <?php 
-    session_start();
+    // session_start();
+    include_once '../header/contentHead.php';
 
     class User
     {
 
-
-        protected $pdo;
-
+        private $pdo;
         function connection(){
             
             $dbname = 'loginTest';
@@ -57,7 +56,7 @@
                 return false;
             }
         }
-        public function signUp($name, $login, $email, $phone, $password)
+        public function registerUser($name, $login, $email, $phone, $password)
         {
             global $pdo;
 

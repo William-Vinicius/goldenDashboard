@@ -1,65 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php 
+    include_once '../header/contentHead.php';
+    include_once '../classes/connection.php';
+    
+    setTitle("Novo Usuário");
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <title>Cadastro</title>
-</head>
+    $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    if(!empty($data['sendSignUp'])){
+        $user->connection();
+
+        if($data['confirmPsw'] === $data['password']){
+            // echo "Deu bom!";
+            $signUp = $user->reGisterUser($data['name'], $data['username'], $data['email'], $data['phone'], $data['password']);
+            if($signUp == true){
+                // $_SESSION['message'] = "Usuário cadastrado com sucesso";
+                echo "deu bom!";
+            }
+            else{
+                echo "deu ruim";
+            }
+        }  
+        else{
+            // $_SESSION['message'] = "Os campos Senha e Confirmar Senha estão diferentes!";
+            echo "deu mais ruim";
+        }
+    }
+?>
 
 <body>
-    <?php
-            include_once 'classes/connection.php';
-            $user = new User();
-            ob_start();
-
-
-            function Redirect($url, $permanent = false){
-                header('Location: ' . $url, true, $permanent ? 301 : 302);
-                exit();
-            }
-
-        if(!isset($_SESSION['id']) AND !isset($_SESSION['name'])){
-            $_SESSION['message'] = "Necessário realizar o login para acessar";
-            Redirect("index.php");
-            
-        }
-    ?>
-
-    <?php 
-
-        function getMessage($msg){
-            if(isset($_SESSION[$msg])){
-                echo $_SESSION[$msg];
-                unset($_SESSION[$msg]);
-            }
-        }
-        
-        $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
-        if(!empty($data['sendSignUp'])){
-            $user->connection();
-
-            if($data['confirmPsw'] === $data['password']){
-                // echo "Deu bom!";
-                $signUp = $user->SignUp($data['name'], $data['username'], $data['email'], $data['phone'], $data['password']);
-                if($signUp == true){
-                    // $_SESSION['message'] = "Usuário cadastrado com sucesso";
-                    echo "deu bom!";
-                }
-                else{
-                    echo "deu ruim";
-                }
-            }  
-            else{
-                // $_SESSION['message'] = "Os campos Senha e Confirmar Senha estão diferentes!";
-                echo "deu mais ruim";
-            }
-        }
-        
-    ?>
     <div class="menu-margin">
         <a href="exit.php"><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
     </div>
@@ -86,12 +53,12 @@
 
                 <div class="columns half-margin ">
                     <label class="dark-font" for="">E-mail: </label>
-                    <input type="text" name="email" id="" required class="txInput signup-input long-input" maxlength="32">
+                    <input type="text" name="email" id="" class="txInput signup-input long-input" maxlength="32">
                 </div>
 
                 <div class="columns half-margin">
                     <label class="dark-font" for="">Número:</label>
-                    <input type="text" name="phone" id="" required class="txInput signup-input" maxlength="16">
+                    <input type="text" name="phone" id="" class="txInput signup-input" maxlength="16">
                 </div>
 
                 <div class="rows">
@@ -106,7 +73,7 @@
                     </div>
                 </div>
                 <div class="space-down columns centraliser">
-                    <input type="submit" value="Acessar" required name="sendSignUp" class="bt-color switch-button login-btn">
+                    <input type="submit" value="Acessar" name="sendSignUp" class="bt-color switch-button login-btn">
                 </div>
             </form>
         </div>
