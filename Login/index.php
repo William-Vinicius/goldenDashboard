@@ -1,61 +1,38 @@
 <?php 
-    include_once 'classes/connection.php'; 
+    define('PROJECT_ROOT_PATH', './');
+    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
+    include_once PROJECT_ROOT_PATH. "classes/connection.php";
+
     $user = new User();
-    ob_start();
-?>
+    setTitle("Teste Login");
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href="styles.css" >
-    <link rel="shortcut icon" href="src/img/favcon.ico" type="image/x-icon">
-    <title>Teste Login</title>
-</head>
-<body>  
-
-    <?php
-
-        function Redirect($url, $permanent = false){
-            header('Location: ' . $url, true, $permanent ? 301 : 302);
-            exit();
-        }
-
-        function getMessage($msg){
-            if(isset($_SESSION[$msg])){
-                echo $_SESSION[$msg];
-                unset($_SESSION[$msg]);
-            }
-        }
-
-        if(isset($_SESSION['id']) AND isset($_SESSION['name'])){
-            Redirect("cadastro.php");
-            
-        }
+    if(isset($_SESSION['id']) AND isset($_SESSION['name'])){
+        Redirect('registrations/regUser.php', false);
         
-        $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    }
+    
+    $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-        if (!empty($dados['sendLogin'])){
-            $dbverify = $user->connection();
+    if (!empty($dados['sendLogin'])){
+        $dbverify = $user->connection();
 
-            if($dbverify == true){
-                $loginValidation = $user->login( $dados['login'], $dados['password'] );
-            
-                if($loginValidation == true){
-                    Redirect('/cadastro.php', false);
-                }
-                else{
-                    $_SESSION['message'] = "Usuário ou senha incorretas";
-                }
+        if($dbverify == true){
+            $loginValidation = $user->login( $dados['login'], $dados['password'] );
+        
+            if($loginValidation == true){
+                Redirect('registrations/regUser.php', false);
             }
             else{
-                $_SESSION['message'] = "Erro ao conectar com o banco de dados";
+                $_SESSION['message'] = "Usuário ou senha incorretas";
             }
-
         }
-    ?>
+        else{
+            $_SESSION['message'] = "Erro ao conectar com o banco de dados";
+        }
+    }
+?>
 
+<body>
     <div class="dad columns">
         <div class="container columns centraliser">
         
@@ -80,4 +57,5 @@
 
 
 </body>
+
 </html>

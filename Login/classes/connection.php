@@ -1,6 +1,6 @@
 <?php 
-    // session_start();
-    include_once '../header/contentHead.php';
+    
+    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
 
     class User
     {
