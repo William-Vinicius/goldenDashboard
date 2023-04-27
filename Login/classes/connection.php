@@ -44,8 +44,9 @@
                 var_dump($validation);
 
                 if (password_verify($password ,$validation['passwordUser'])) {
-                    $_SESSION['id'] = $validation['idUser'];
-                    $_SESSION['name'] = $validation['nameUser'];
+                    $nameCookie = "LoginValidation";
+                    // setcookie($nameCookie, $validation['nameUser'],time()+60 * 60 * 1);
+                    setcookie($nameCookie, $validation['nameUser'],  time()+10);
                     return true;
                 }
                 else{
@@ -67,8 +68,6 @@
 
             if($resultQuery->rowCount() > 0){
                 return false;
-                // $_SESSION['warning'] = "Login não disponível";
-                echo "erro de login";
             }
             else{
                 $password = password_hash($password, PASSWORD_DEFAULT);

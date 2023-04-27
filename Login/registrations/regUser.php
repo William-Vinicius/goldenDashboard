@@ -2,7 +2,7 @@
     define('PROJECT_ROOT_PATH', '../');
     include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
     include_once PROJECT_ROOT_PATH . '/classes/connection.php';
-    // include_once __DIR__.'path_to_filename';
+    secure();
 
     $user = new User();
     
@@ -13,7 +13,7 @@
     if(!empty($data['sendSignUp'])){
         $dbValidation = $user->connection();
 
-        if($dbValidation == true){ 
+        if($dbValidation == true){
             if($data['confirmPsw'] === $data['password']){
                 $signUp = $user->registerUser($data['name'], $data['username'], $data['email'], $data['phone'], $data['password']);
                 
@@ -80,12 +80,14 @@
                         <input type="password" name="confirmPsw" id="" required class="txInput signup-input" maxlength="16">
                     </div>
                 </div>
+
                     <!-- msg de erro  -->
                     <div class ="error-message centraliser">
                         <p class="center-text">
                             <?php getMessage('message')?> 
                         </p>
                     </div>
+
                 <div class="space-down columns centraliser">
                     <input type="submit" value="Acessar" name="sendSignUp" class="bt-color switch-button login-btn">
                 </div>

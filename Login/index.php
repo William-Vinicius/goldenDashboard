@@ -6,7 +6,7 @@
     $user = new User();
     setTitle("Teste Login");
 
-    if(isset($_SESSION['id']) AND isset($_SESSION['name'])){
+    if(isset($_COOKIE['LoginValidation'])){
         Redirect('registrations/regUser.php', false);
         
     }
@@ -20,6 +20,7 @@
             $loginValidation = $user->login( $dados['login'], $dados['password'] );
         
             if($loginValidation == true){
+
                 Redirect('registrations/regUser.php', false);
             }
             else{
