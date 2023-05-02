@@ -42,5 +42,4 @@
             Redirect(PROJECT_ROOT_PATH."login.php");
         }
     }
-
 ?>

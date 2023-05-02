@@ -34,7 +34,6 @@
 <body>
     <div class="dad columns">
         <div class="container columns centraliser">
-        
 
             <header class="centraliser">
                 <h1 class="center-text">Bem Vindo</h1>
@@ -45,6 +44,7 @@
                 <input type="text" name="login" class="login-input txInput" placeholder="Usuário" maxlength="16" value="<?php if( !empty($dados['login'])){ echo $dados['login']; } ?>" required>
                 <input type="password" name="password" class="login-input txInput" placeholder="Senha" maxlength="16" required>
                 <input type="submit" value="Acessar" name="sendLogin" class="bt-color switch-button login-btn">
+                <a href="registrations/forgotPassword.php" class="blue-link">Esqueceu a Senha?</a>
             </form>
             
         </div>
@@ -52,9 +52,6 @@
             <?php getMessage('message')?> 
         </div>
     </div>
-
-
-
 </body>
 
 </html>

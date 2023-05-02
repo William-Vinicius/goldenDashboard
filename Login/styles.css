@@ -11,7 +11,7 @@ html, body{
     background-color: #282a49
 }
 header{
-    margin: 2rem;
+    margin: 1rem 1rem 2rem 1rem;
     flex: .5;
 }
 .dad{
@@ -178,7 +178,6 @@ input{
     border-top-width:0;
     border-left-width:0;
     background-color: #737DEB;
-
     border-bottom-width:2px;
     border-color: #1c2038;
     color: #1c2038;
@@ -347,4 +346,18 @@ input.drop-btn:checked ~ li.menu-leader{
 }
 .mid-input{
     width: 15rem
+}
+.bold{
+    font-weight: bold;
+    font-size: 1.15rem;
+}
+.blue-link{
+    color: #2b67df;
+    font: bold 1rem Arial, sans-serif;
+}
+.blue-link:hover{
+    color: #4b52a1
+}
+.half-margin-left{
+    margin-left: .5rem;
 }

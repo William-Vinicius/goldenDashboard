@@ -15,13 +15,11 @@
         <div class="menu-dad">
 
         </div>
-
         <div class="container main-index">
             <header>
                 <h1>Selecione o Dashboard desejado</h1>
             </header>
             <nav class="rows">
-
                 <ul class="pages">
 
                     <a href="#pg1">
@@ -33,14 +31,12 @@
                     <a href="#pg3">
                         <li class="redirect bt-color"> Popularidade dos Cassinos </li>
                     </a>
-
                 </ul>
                 <ul class="pages">
 
                     <a href="TestPage.html">
                         <li class="redirect bt-color "> Teste de Menu </li>
                     </a>
-
                 </ul>
             </nav>
         </div>
