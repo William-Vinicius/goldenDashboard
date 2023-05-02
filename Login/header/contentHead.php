@@ -38,8 +38,8 @@
     // colocar os Cookies
     function secure(){
         if(!isset($_COOKIE['LoginValidation'])){
-        $_SESSION['message'] = "Necessário realizar o login para acessar";
-        Redirect(PROJECT_ROOT_PATH);
+            $_SESSION['message'] = "Necessário realizar o login para acessar";
+            Redirect(PROJECT_ROOT_PATH."login.php");
         }
     }
 

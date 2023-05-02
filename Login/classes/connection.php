@@ -46,7 +46,7 @@
                 if (password_verify($password ,$validation['passwordUser'])) {
                     $nameCookie = "LoginValidation";
                     // setcookie($nameCookie, $validation['nameUser'],time()+60 * 60 * 1);
-                    setcookie($nameCookie, $validation['nameUser'],  time()+10);
+                    setcookie($nameCookie, $validation['nameUser'],  time()+100);
                     return true;
                 }
                 else{
@@ -85,7 +85,6 @@
                 
                 return true;
             }
-            
         }
     }
     
