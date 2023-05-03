@@ -90,12 +90,12 @@ class User
             $recoveryKey = password_hash($validation['idUser'],  PASSWORD_DEFAULT);
 
             $query = "UPDATE tbUser SET recoveryCode = :recoveryKey where idUser = :id LIMIT 1";
-            $resultQuery = $pdo->prepare($query);
+            $result = $pdo->prepare($query);
             
-            $resultQuery->bindParam(':recoveryKey', $recoveryKey, PDO::PARAM_STR);
-            $resultQuery->bindParam(':id', $validation['idUser'], PDO::PARAM_STR);
-            $resultQuery->execute();
-            echo "localhost:8000/atualizar_senha.php?key=" . $recoveryKey;
+            $result->bindParam(':recoveryKey', $recoveryKey, PDO::PARAM_STR);
+            $result->bindParam(':id', $validation['idUser'], PDO::PARAM_STR);
+            $result->execute();
+            $_SESSION['message'] = "localhost:8000/atualizar_senha.php?key=" . $recoveryKey;
             return true;
         }
         else{
@@ -113,7 +113,6 @@ class User
             
             return $resultQuery;
         }
-
     }
 
     public function recoverPsw($passwordKey, $newPassword){
@@ -122,7 +121,7 @@ class User
         if($resultQuery[0] == true){
             global $pdo;
             
-            $validation = $resultQuery[1];
+            $validation = $resultQuery[1]->fetch(PDO::FETCH_ASSOC);
             $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
             $query = "UPDATE tbUser SET passwordUser = :newPassword where idUser = :id LIMIT 1";
@@ -154,10 +153,8 @@ class User
 
         global $pdo;
 
-
         $resultQuery = $pdo->prepare($query);
         $resultQuery->bindParam($param, $key, PDO::PARAM_STR);
-        var_dump($resultQuery);
         $resultQuery->execute();
         
         if ($resultQuery->rowCount() > 0){
