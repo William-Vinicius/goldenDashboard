@@ -1,13 +1,14 @@
 <?php 
-    define('PROJECT_ROOT_PATH', './');
-    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-    include_once PROJECT_ROOT_PATH. "classes/connection.php";
 
-    $user = new User();
-    setTitle("Teste Login");
+    include 'autoload.php';
+
+    $user = new user();
+    $head = new head();
+
+    $head->setTitle("Teste Login");
 
     if(isset($_COOKIE['LoginValidation'])){
-        Redirect(PROJECT_ROOT_PATH, false);
+        $head->Redirect('index.php', false);
     }
     
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -19,7 +20,7 @@
             $loginValidation = $user->login( $dados['login'], $dados['password'] );
         
             if($loginValidation == true){
-                Redirect(PROJECT_ROOT_PATH);
+                $head->Redirect('index.php', false);
             }
             else{
                 $_SESSION['message'] = "Usuário ou senha incorretas";
@@ -49,7 +50,7 @@
             
         </div>
         <div class ="error-message">
-            <?php getMessage('message')?> 
+            <?php $head->getMessage('message')?> 
         </div>
     </div>
 </body>

@@ -1,12 +1,10 @@
 <?php 
-    define('PROJECT_ROOT_PATH', '../');
-    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-    include_once PROJECT_ROOT_PATH . '/classes/connection.php';
-    secure();
+    include '../autoload.php';
+    $head = new head();
+    $user = new user();
 
-    $user = new User();
-    
-    setTitle("Novo Usuário");
+    $head->secure();    
+    $head->setTitle("Novo Usuário");
 
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
@@ -36,7 +34,7 @@
 
 <body>
     <div class="menu-margin">
-        <a href="../exit.php"><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
+        <a href="../"><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
     </div>
 
     <div class="dad">
@@ -84,7 +82,7 @@
                     <!-- msg de erro  -->
                     <div class ="error-message centraliser">
                         <p class="center-text">
-                            <?php getMessage('message')?> 
+                            <?php $head->getMessage('message')?> 
                         </p>
                     </div>
 

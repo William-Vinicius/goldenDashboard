@@ -1,9 +1,8 @@
 <?php
-    define('PROJECT_ROOT_PATH', './');
-    include_once PROJECT_ROOT_PATH. "classes/connection.php";
-    secure();
-
+    include 'autoload.php';
+    $head = new head();
     ob_start();
+    
     setcookie('LoginValidation', '', 1);
-    Redirect('login.php', false);
+    $head->Redirect('login.php');
 ?>

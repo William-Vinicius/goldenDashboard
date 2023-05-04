@@ -1,12 +1,9 @@
 <?php 
-    define('PROJECT_ROOT_PATH', '../');
+    include '../autoload.php';
+    $head = new head();
+    $user = new user();
 
-    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-    include_once PROJECT_ROOT_PATH. "classes/connection.php";
-
-    setTitle("Alterar Senha");
-    $user = new User();
-
+    $head->setTitle("Alterar Senha");
     $passwordKey = filter_input(INPUT_GET, 'key', FILTER_DEFAULT);
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
@@ -37,13 +34,13 @@
     }
     else{
         $_SESSION['message'] = 'Link de recuperação inválido';
-        Redirect(PROJECT_ROOT_PATH . 'login.php', false);
+        $head->Redirect('login.php', false);
     }
 ?>
 
 <body>
     <div class="menu-margin">
-        <a href=<?php echo PROJECT_ROOT_PATH . 'login.php' ?>><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
+        <a href='../login.php'><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
     </div>
 
     <div class="dad">
@@ -66,7 +63,7 @@
 
                 <div class ="error-message centraliser">
                     <p class="center-text">
-                        <?php getMessage('message')?> 
+                        <?php $head->getMessage('message')?> 
                     </p>
                 </div>
 

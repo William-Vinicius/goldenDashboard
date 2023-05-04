@@ -17,8 +17,8 @@ CREATE TABLE tbAccess(
     nmAccess VARCHAR(32) NOT NULL
 );
 
-CREATE TABLE tbAcessConfig(
-    idAcessConfig INT PRIMARY KEY,
+CREATE TABLE tbAccessConfig(
+    idAccessConfig INT PRIMARY KEY,
     param TINYINT(1),
     idPage INT, #tbPage
     idAccesso INT #tbAccess
@@ -42,7 +42,7 @@ CREATE TABLE tbAcessConfig(
     endDateGoal DATE NOT NULL
 );
 
-CREATE TABLE Rewards(
+CREATE TABLE tbRewards(
     idReward INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nameReward VARCHAR(32) NOT NULL,
     descReward VARCHAR(100),
@@ -71,6 +71,51 @@ CREATE TABLE tbSubAfiliate (
 );
 
 CREATE TABLE tbAfManger (
-	idAdManager INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	idAfManager INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     idSysAfManager INT UNIQUE
 );
+
+/*Chaves Estrangeiras*/
+/*Comissões para afiliados e gerentes*/
+
+ALTER TABLE tbComissions
+ADD FOREIGN KEY (idAfiliate) REFERENCES tbAfiliate(idAfiliate); 
+
+ALTER TABLE tbSubAfiliate
+ADD FOREIGN KEY (idAfiliate) REFERENCES tbAfiliate(idAfiliate);
+
+ALTER TABLE tbSubAfiliate
+ADD FOREIGN KEY (idAfManager) REFERENCES tbAfManager(idAfManager);
+
+/* Premiações pra metas*/
+
+ALTER TABLE tbRewards
+ADD FOREIGN KEY(idGoal) REFERENCES tbGoal(idGoal);
+
+/* Permissões para usuários */
+
+ALTER TABLE tbUser
+ADD FOREIGN KEY(idAccess) REFERENCES tbAccess(idAccess);
+
+ALTER TABLE tbAccessConfig
+ADD FOREIGN KEY(idAccess) REFERENCES tbAccess(idAccess);
+
+ALTER TABLE tbAccessConfig
+ADD FOREIGN KEY(idPage) REFERENCES tbPage(idPage);
+
+/* Views */
+/*Retorna ID do afiliado no sistema e sua comissão*/
+
+SELECT (tbAfiliate.idAfiliate,tbAfiliate.idSysAfiliate, tbComissions.ValueComission) 
+FROM tbAfiliate
+INNER JOIN tbComissions ON tbAfiliate.idAfiliate = tbComissions.idAfiliate;
+
+/*Retorna ID do gerente no sistema, seu afiliado e sua comissão*/
+
+SELECT (tbAfManger.idAfManger, tbAfManger.idSysAfManger, tbSubAfiliate.valueComission, tbAfiliate.idSysAfiliate)
+FROM tbSubAfiliate
+INNER JOIN tbAfManger ON tbSubAfiliate.idAfManger = tbAfManger.idAfManger
+INNER JOIN tbAfiliate ON tbSubAfiliate.idAfiliate = tbAfiliate.idAfiliate
+
+
+/* Stored Procedures */

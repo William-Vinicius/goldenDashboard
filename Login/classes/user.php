@@ -1,8 +1,5 @@
-<?php 
-    
-include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-
-class User
+<?php
+class user
 {
     private $pdo;
 
@@ -95,7 +92,7 @@ class User
             $result->bindParam(':recoveryKey', $recoveryKey, PDO::PARAM_STR);
             $result->bindParam(':id', $validation['idUser'], PDO::PARAM_STR);
             $result->execute();
-            $_SESSION['message'] = "localhost:8000/atualizar_senha.php?key=" . $recoveryKey;
+            $_SESSION['message'] = "localhost:8000/registrations/passwordRefresh.php?key=" . $recoveryKey;
             return true;
         }
         else{

@@ -1,13 +1,10 @@
 <?php 
+    include '../autoload.php';
 
-    define('PROJECT_ROOT_PATH', '../');
+    $head = new head();
+    $user = new user();
 
-    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-    include_once PROJECT_ROOT_PATH. "classes/connection.php";
-
-    setTitle("Alterar Senha");
-    $user = new User();
-
+    $head->setTitle("Alterar Senha");
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     
     if(!empty($data['sendLink'])){
@@ -30,7 +27,7 @@
    ?>
 <body>
     <div class="menu-margin">
-        <a href=<?php echo PROJECT_ROOT_PATH . 'login.php' ?>><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
+        <a href='../login.php'><i class="ph ph-caret-double-left" style="font-size: 2.5rem"></i></a>
     </div>
     <div class="dad columns">
         <div class="container columns">
@@ -73,7 +70,7 @@
 
         <div class ="error-message centraliser">
             <p class="center-text">
-                <?php getMessage('message')?> 
+                <?php $head->getMessage('message')?> 
             </p>
         </div>
 

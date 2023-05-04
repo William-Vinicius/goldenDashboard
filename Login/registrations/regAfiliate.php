@@ -1,9 +1,10 @@
 <?php 
-    define('PROJECT_ROOT_PATH', '../../');
-    include_once PROJECT_ROOT_PATH . '/header/contentHead.php';
-    include_once PROJECT_ROOT_PATH . '/classes/connection.php';
 
-    setTitle("Novo Afiliado");
+    include '../autoload.php';
+    $head = new head();
+    $user = new user();
+
+    $head->setTitle("Novo Afiliado");
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
     if(!empty($data['sendSignUp'])){
