@@ -9,14 +9,16 @@
 <div class="dad">
     <div class="container">
         <header>
-            <!-- alhsgdlsaih -->
+            <h1>
+                NOME MUITO DAHORA
+            </h1>
         </header>
         <div class="rows">
-            <div class="columns">
-                <div class="columns">
-                    <p>
+            <div class="columns padding-sides flex1-box">
+                <div class="columns ">
+                    <h3>
                         Período
-                    </p>
+                    </h3>
                     <select id="months" name="months" class="txInput space-up">
                         <option>Selecione</option>
 
@@ -41,20 +43,31 @@
                 </div>
             </div>
             
-            <div class="columns">
-                <div>
+            <div class="columns padding-sides flex1-box">
+                <div class="space-up">
                     <div class="drawSearch src-button">
                         Metas
                         <i class="ph ph-caret-down"></i>
                     </div>
                 </div>
 
-                <div>
+                <div class="columns">
+                    <div class="rows space-up">
+                        <h3>Tipo de Tabela: </h3>
+                    </div>
 
+                    <div class="rows">
+                        <input type="radio" name="tableChoice" id="cols">
+                        <label for="cols"> Colunas </label>
+                    </div>
+                    <div class="rows">
+                        <input type="radio" name="tableChoice" id="lines">
+                        <label for="lines"> Linhas </label>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="rows">
+        <div class="rows stretch-test" >
 
         </div>
     </div>

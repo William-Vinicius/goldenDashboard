@@ -128,7 +128,7 @@ a{
     flex: 2;
 }
 .flex1-box{
-    flex: 2;
+    flex: 1;
 }
 
 .switch-button{
@@ -202,6 +202,9 @@ input{
     margin-top: 2rem;
 }
 
+.padding-sides{
+    padding: 0 1rem;
+}
 
 /* Menu retratil */
 
@@ -360,4 +363,13 @@ input.drop-btn:checked ~ li.menu-leader{
 }
 .half-margin-left{
     margin-left: .5rem;
+}
+.stretch-test{
+width: 1000px;
+height: 50rem;
+background-color: #cbd0ff;
+}
+
+div.container div.rows div{
+    width: 100%;
 }
