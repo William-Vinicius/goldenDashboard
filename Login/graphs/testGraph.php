@@ -13,9 +13,12 @@
         </header>
         <div class="rows">
             <div class="columns">
-                <div>
+                <div class="columns">
+                    <p>
+                        Período
+                    </p>
                     <select id="months" name="months" class="txInput space-up">
-                        <option>Selecione um Período</option>
+                        <option>Selecione</option>
 
                         <option onclick = "setPeriod(3)">3 Meses</option>
                         <option onclick = "setPeriod(6)">6 Meses</option>
