@@ -24,7 +24,7 @@
                     <a href="registrations/regUser.php">
                         <li class="redirect bt-color "> Extrato dos afiliados </li>
                     </a>
-                    <a href="#pg2">
+                    <a href="graphs/testGraph.php">
                         <li class="redirect bt-color"> Depósitos & Saques </li>
                     </a>
                     <a href="#pg3">

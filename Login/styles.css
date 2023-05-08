@@ -366,10 +366,21 @@ input.drop-btn:checked ~ li.menu-leader{
 }
 .stretch-test{
 width: 1000px;
-height: 50rem;
+/* height: 20rem; */
 background-color: #cbd0ff;
 }
 
 div.container div.rows div{
     width: 100%;
+}
+
+table{
+    border: 2px solid #737DEB;
+}
+table td{
+    border: 1px solid #737DEB;
+
+}
+.title-row{
+    background-color:#666dc5;
 }

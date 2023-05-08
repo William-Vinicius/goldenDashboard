@@ -161,4 +161,32 @@ class user
             return [false, $resultQuery];
         }
     }
+    public function getUsers($maxValues = 50){
+
+        global $pdo;
+        $this->connection();
+        
+        // if($id != ''){
+            $query = "SELECT idUser, nameUser, loginUser FROM tbUser LIMIT :limitKey" ;
+            $resultQuery = $pdo->prepare($query);
+            $resultQuery->bindParam(':limitKey', $maxValues, PDO::PARAM_STR);
+            $resultQuery->execute();
+            $arrUser = $resultQuery->fetchAll();
+
+            $cont = 0;
+            echo "<table>";
+            foreach($arrUser as &$userCol){
+                echo "<tr>";
+                foreach($userCol as &$userLine){
+                    if($cont >= 1){
+                        $cont = 0;
+                    }
+                    else{
+                    echo "<td>";
+                    echo $userLine;
+                    $cont++;
+                }}
+            }
+        // }
+    }
 }
