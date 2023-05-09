@@ -3,12 +3,13 @@
 
     $head = new head();
     $user = new user();
+    $conn = new connection();
 
     $head->setTitle("Alterar Senha");
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     
     if(!empty($data['sendLink'])){
-        $dbValidation = $user->connection();
+        $dbValidation = $conn->getConnection();
 
         if($dbValidation == true){
             $login = $user->recoverPswLink($data['login']);

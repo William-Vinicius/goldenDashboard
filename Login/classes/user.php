@@ -1,32 +1,8 @@
 <?php
+include '../autoload.php';
+$connection = new connection();
 class user
 {
-    private $pdo;
-
-    public function connection(){
-        
-        $dbname = 'loginTest';
-        $host = 'localhost';
-        $port= 3306;
-        $dbuser = 'root';
-        $dbpassword = 'admin';
-
-        global $pdo;
-
-        try{
-            $pdo = new PDO("mysql:dbname$dbname;host=$host;port=$port", $dbuser, $dbpassword);
-            
-            $useQuery = "USE $dbname";  
-            $useDb = $pdo->prepare($useQuery);
-            $useDb->execute();
-            return true;
-    
-        }
-        catch(PDOException $erro){
-            return false;
-        }
-    }
-
     public function login($username, $password){
         $query = "SELECT idUser, passwordUser, nameUser FROM tbUser WHERE loginUser LIKE :username LIMIT 1;";
         $result = $this->rowCount($query, $username, "");
@@ -53,12 +29,12 @@ class user
     public function registerUser($name, $login, $email, $phone, $password){
         $result = $this->rowCount("", $login, "");
 
-        if($result[0] == true){
+        if($result[0]){
             return false;
         }
-
         else{
-            global $pdo;
+            global $connection;
+            $pdo = $connection->getPdo();
 
             $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -81,7 +57,8 @@ class user
         $resultQuery = $this->rowCount("", $login, "");
 
         if($resultQuery[0] == true){
-            global $pdo;
+            global $connection;
+            $pdo = $connection->getPdo();
 
             $validation = $resultQuery[1]->fetch(PDO::FETCH_ASSOC);
             $recoveryKey = password_hash($validation['idUser'],  PASSWORD_DEFAULT);
@@ -116,7 +93,8 @@ class user
         $resultQuery = $this->recoveryCheck($passwordKey);
 
         if($resultQuery[0] == true){
-            global $pdo;
+            global $connection;
+            $pdo = $connection->getPdo();
             
             $validation = $resultQuery[1]->fetch(PDO::FETCH_ASSOC);
             $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -148,7 +126,8 @@ class user
             $param = ":username";
         }
 
-        global $pdo;
+        global $connection;
+        $pdo = $connection->getPdo();
 
         $resultQuery = $pdo->prepare($query);
         $resultQuery->bindParam($param, $key, PDO::PARAM_STR);
@@ -161,32 +140,54 @@ class user
             return [false, $resultQuery];
         }
     }
+
+
+    //Separar isso em uma classe
+
+    private string $order;
+    
     public function getUsers($maxValues = 50){
 
-        global $pdo;
-        $this->connection();
+        global $connection;
+        $pdo = $connection->getPdo();
+
+        $connection->getConnection();
         
         // if($id != ''){
-            $query = "SELECT idUser, nameUser, loginUser FROM tbUser LIMIT :limitKey" ;
-            $resultQuery = $pdo->prepare($query);
-            $resultQuery->bindParam(':limitKey', $maxValues, PDO::PARAM_STR);
-            $resultQuery->execute();
-            $arrUser = $resultQuery->fetchAll();
+        $query = "SELECT idUser, nameUser, loginUser FROM tbUser ". $this->getOrder() ." LIMIT :limitKey";
+        $resultQuery = $pdo->prepare($query);
+        $resultQuery->bindParam(':limitKey', $maxValues, PDO::PARAM_INT);
+        $resultQuery->execute();
+        $arrUser = $resultQuery->fetchAll();
 
-            $cont = 0;
-            echo "<table>";
-            foreach($arrUser as &$userCol){
-                echo "<tr>";
-                foreach($userCol as &$userLine){
-                    if($cont >= 1){
-                        $cont = 0;
-                    }
-                    else{
+        // Tabulando o Conteúdo 
+
+        $cont = 0;
+        echo "<table>";
+        foreach($arrUser as &$userCol){
+            echo "<tr>";
+            foreach($userCol as &$userLine){
+                if($cont >= 1){
+                    $cont = 0;
+                }
+                else{
                     echo "<td>";
                     echo $userLine;
                     $cont++;
-                }}
+                }
             }
+        }
         // }
+    }
+
+    public function getOrder(){
+        if(isset($order) && $order != ""){
+            return $this->order;
+        }
+
+    }
+    public function setOrder($order){
+        $this->order = "ORDER BY $order";
+        return $this;
     }
 }

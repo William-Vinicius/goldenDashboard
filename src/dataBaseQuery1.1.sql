@@ -18,10 +18,10 @@ CREATE TABLE tbAccess(
 );
 
 CREATE TABLE tbAccessConfig(
-    idAccessConfig INT PRIMARY KEY,
+    idAccessConfig INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     param TINYINT(1),
     idPage INT, #tbPage
-    idAccesso INT #tbAccess
+    idAccess INT #tbAccess
 
 );
 
@@ -31,8 +31,9 @@ CREATE TABLE tbAccessConfig(
     subPage TINYINT(1) NOT NULL
 );
  
+ 
  CREATE TABLE tbGoal(
-	idGoal INT NOT NULL AUTO_INCREMENT,
+	idGoal INT AUTO_INCREMENT NOT NULL PRIMARY KEY ,
     nameGoal VARCHAR(32) NOT NULL,
     descGoal VARCHAR(100),
     target TINYINT(3) NOT NULL,
@@ -49,6 +50,7 @@ CREATE TABLE tbRewards(
     dateCreationReward DATE,
     idGoal INT #tbGoal
 );
+
 
 CREATE TABLE tbComissions(
     idComission INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +72,7 @@ CREATE TABLE tbSubAfiliate (
     valueComission DECIMAL(3,2)
 );
 
-CREATE TABLE tbAfManger (
+CREATE TABLE tbAfManager (
 	idAfManager INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     idSysAfManager INT UNIQUE
 );
@@ -106,16 +108,18 @@ ADD FOREIGN KEY(idPage) REFERENCES tbPage(idPage);
 /* Views */
 /*Retorna ID do afiliado no sistema e sua comissão*/
 
-SELECT (tbAfiliate.idAfiliate,tbAfiliate.idSysAfiliate, tbComissions.ValueComission) 
+SELECT (tbAfiliate.idAfiliate,tbAfiliate.idSysAfiliate, tbComissions.ValueComission)
 FROM tbAfiliate
 INNER JOIN tbComissions ON tbAfiliate.idAfiliate = tbComissions.idAfiliate;
 
 /*Retorna ID do gerente no sistema, seu afiliado e sua comissão*/
 
 SELECT (tbAfManger.idAfManger, tbAfManger.idSysAfManger, tbSubAfiliate.valueComission, tbAfiliate.idSysAfiliate)
-FROM tbSubAfiliate
-INNER JOIN tbAfManger ON tbSubAfiliate.idAfManger = tbAfManger.idAfManger
-INNER JOIN tbAfiliate ON tbSubAfiliate.idAfiliate = tbAfiliate.idAfiliate
+FROM ((tbSubAfiliate
+INNER JOIN tbAfManger ON tbSubAfiliate.idAfManger = tbAfManger.idAfManger)
+INNER JOIN tbAfiliate ON tbSubAfiliate.idAfiliate = tbAfiliate.idAfiliate);
 
+
+drop database dbdashboar;
 
 /* Stored Procedures */

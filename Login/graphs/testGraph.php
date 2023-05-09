@@ -69,9 +69,9 @@
         </div>
         <div class="rows stretch-test" >
             <?php 
-            include '../autoload.php';
-            $user = new user();
-            $user->getUsers()
+                include '../autoload.php';
+                $user = new user();
+                $user->getUsers()
             ?>
         </div>
     </div>
