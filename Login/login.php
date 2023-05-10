@@ -4,6 +4,7 @@
 
     $user = new user();
     $head = new head();
+    $conn = new connection();
 
     $head->setTitle("Teste Login");
 
@@ -14,7 +15,7 @@
     $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
     if (!empty($dados['sendLogin'])){
-        $dbverify = $user->connection();
+        $dbverify = $conn->getConnection();
 
         if($dbverify == true){
             $loginValidation = $user->login( $dados['login'], $dados['password'] );
