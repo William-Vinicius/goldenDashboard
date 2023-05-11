@@ -10,7 +10,8 @@
     <h1 class="title">
 
     </h1>
-    <input type="button" value="Me Aperta Poh" onclick="myFun()">
+    <input type="button" value="Me Aperta Poh" onclick="testLoop()">
+    <input type="button" value="Mostrar" onclick="logBook(y)">
     <script src="test.js"></script>
 </body>
 </html>
