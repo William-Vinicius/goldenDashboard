@@ -12,9 +12,8 @@ class CookieHandler{
     }
     return false; // Cookie non Ecxiste
   }
-    // Retorna o cookie pelo NamedNodeMap, só n sei se retorna cookie vencido
+    // Retorna o cookie pelo NamedNodeMap, só n sei se retorna cookie vencido (não retorna :v)
   getCookie(cookieName){
-
     var cookieData = this.cookieExists(cookieName);
 
     if(cookieData[0]){
@@ -74,7 +73,7 @@ class ApiInfo{
       const data = await response.json();
       token = data["token_jwt"];
       return token;
-    } 
+    }
     catch (error) {
       console.log(error);
     }
@@ -85,13 +84,12 @@ class ApiInfo{
   async setAuthCookie() {
     const nameCookie = "sgaApiKey";
     const timeCookie = .1 * 60 * 60 * 1000; // 6 min
-    // const timeCookie = 1 * 60 * 60 * 1000; // 1h
-
+    // const timeCookie = 5 * 60 * 60 * 1000; // 5h
 
     if (!ch.cookieExists(nameCookie)[0]) {
       this.setAuth(await this.GetNewToken());
-
       ch.setCookie(nameCookie, this.getAuth(), timeCookie);
+
     } 
     else {
       ch.getCookie(nameCookie);
