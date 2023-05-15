@@ -1,17 +1,57 @@
-// Classe de validação da chave de acesso + liberação do JSON
+class CookieHandler{
+  
+  cookieExists(cookieName) {
+    var cookies = document.cookie;
+    var cookiesArray = cookies.split(';');
 
+    for (var cont = 0; cont < cookiesArray.length; cont++) {
+      var cookie = cookiesArray[cont].trim();
+      if (cookie.startsWith(cookieName + '=')) {
+        return [true, cookie]; // Cookie Existe
+      }
+    }
+    return false; // Cookie non Ecxiste
+  }
+    // Retorna o cookie pelo NamedNodeMap, só n sei se retorna cookie vencido
+  getCookie(cookieName){
+
+    var cookieData = this.cookieExists(cookieName);
+
+    if(cookieData[0]){
+      return cookieData[1].split('=')[1];
+      }
+  }
+
+  setCookie(name, value, valDate){
+    let cookieName = String(name);
+    let cookieValue = value
+    let cookieTime = new Date(Date.now() + Number(valDate)); 
+
+    document.cookie = `${cookieName}=${cookieValue}; expires=${cookieTime.toUTCString()}; path=/; SameSite=none; secure`
+  }
+}
+
+const ch = new CookieHandler();
+// Classe de validação da chave de acesso + liberação do JSON
 class ApiInfo{
 
-  auth
+// Variável Privada que é retornada na classe como autorização da API
+  constructor(){
+    let _auth;
 
-  getAuth(){
-    return this.auth
+    this.getAuth = () => {
+      return _auth;
+    }
+    this.setAuth = (valor) => {
+      _auth = valor;
+    }
   }
-  
-  // Atualiza o um novo código para o auth
-  async GetNewToken(){ // Retorna uma nova autorização
 
+  // Atualiza o um novo código para o auth
+  async  GetNewToken(){ // Retorna uma nova autorização
+    
     let token;
+
     const apiKey = ["x-api-key", "f6d7f7abb1ff0e3b1557db73427f33912a514cd63c0aeec9ae"];
     const loginData = [["login", "jogodeouro"], ["password", "2w308efh"]]; // Inutil por enquanto, mas pode ser útil
 
@@ -38,59 +78,26 @@ class ApiInfo{
     catch (error) {
       console.log(error);
     }
-    return String(token);
+    // return token;
   }
 
-  // Funcção principal que insere valor e atualiza o auth
-  async setAuthCookie(){
-    const nameCookie = "sgaApiKey"
-    // const timeCookie = 4.5 * 60 * 60 * 1000
-    const timeCookie = .1 * 60 * 60 * 1000
-
-    if(!cookieExists(nameCookie)[0]){
-      this.auth = await this.GetNewToken()
-      setCookie(nameCookie, this.auth, timeCookie)
-      console.log("Cookie atualizado")
-    }
-    else{
-      getCookie(nameCookie)
-      console.log("Cookie alcançado")
-    }
-  }
-}
+// Função principal que insere valor e atualiza o auth
+  async setAuthCookie() {
+    const nameCookie = "sgaApiKey";
+    const timeCookie = .1 * 60 * 60 * 1000; // 6 min
+    // const timeCookie = 1 * 60 * 60 * 1000; // 1h
 
 
-// Classe de cookies + alguma coisa...?
-const apiInfo = new ApiInfo()
+    if (!ch.cookieExists(nameCookie)[0]) {
+      this.setAuth(await this.GetNewToken());
 
-
-function cookieExists(cookieName) {
-  var cookies = document.cookie;
-  var cookiesArray = cookies.split(';');
-
-  for (var cont = 0; cont < cookiesArray.length; cont++) {
-    var cookie = cookiesArray[cont].trim();
-    console.log(cookiesArray) // Teste
-    if (cookie.startsWith(cookieName + '=')) {
-      return [true, cookie]; // Cookie Existe
+      ch.setCookie(nameCookie, this.getAuth(), timeCookie);
+    } 
+    else {
+      ch.getCookie(nameCookie);
+      console.log("Cookie Detectado")
     }
   }
-  return false; // Cookie non Ecxiste
-}
-  // Retorna o cookie pelo NamedNodeMap, só n sei se retorna cookie vencido
-function getCookie(cookieName){
 
-  var cookieData = cookieExists(cookieName);
 
-  if(cookieData[0]){
-    return cookieData[1].split('=')[1];
-    }
-}
-
-function setCookie(name, value, valDate){
-  let cookieName = String(name);
-  let cookieValue = value
-  let cookieTime = new Date(Date.now() + Number(valDate)); 
-
-  document.cookie = `${cookieName}=${cookieValue}; expires=${cookieTime.toUTCString()}; path=localhost:8000; httponly=true; SameSite=none; secure`
 }
