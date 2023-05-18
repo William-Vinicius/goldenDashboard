@@ -161,12 +161,13 @@ class ApiInfo{
             const result = await response.json()
             table = result["data"]
             console.log(table)
-            return table['bet_id']
+            return table
         }
         catch (error) {
             console.log(error)
         }
 
+        console.log(table)
         return table
     }
 
@@ -183,11 +184,10 @@ class ApiInfo{
         return filteredArray
     }
     
-    ShowDataTable(dataObject, titles){ // 
-        dataObject = [{'id': 1, 'name': "Mango"}, {'id': 2, 'name': "Apple"}, {'id': 3, 'name': "cherry"}]
-        titles = ['Id', 'Name']
+    drawDataTable(dataObject, titles){ // Coloca a array em formato de tabela
 
         const dataArray = dataObject.map(obj => Object.values(obj).map(value => String(value))) // trocando o objeto para uma array
+
         let tabelaHTML = '<table><tr>'
 
         titles.forEach(data => {
@@ -206,7 +206,104 @@ class ApiInfo{
         tabelaHTML += '</table>';
         console.log(dataArray[0].length)
         document.querySelector('#tabela').innerHTML = tabelaHTML;
+    }
+}
 
+const api = new ApiInfo()
+class DataWorks{
+    betWin
+
+    async getTopPlayersArray(dateStart,dateEnd, infoList = 2){
+        const dataObj = await api.useApi(dateStart, dateEnd, infoList)
+
+        console.log(dataObj)
+
+        // Forma de Pegar uma coluna
+        function getApiArrays() {
+            if(infoList == 1){ // Esportes
+                var column = dataObj.map(function(innerContent) {
+                    return [
+                        innerContent.user_id.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
+                     ]
+                })
+    
+                let map = column.reduce(
+                    (accumulator, [id, value, condition, multi]) => {
+                        accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
+                    
+                        accumulator[id].count++;
+                        if (condition == "Cashout" ) {
+                        accumulator[id].positiveValue += Number(value)
+                        }
+                        else {
+                        accumulator[id].positiveValue += Number(value)
+                        accumulator[id].negativeValue += Number(value) * multi
+                        }
+        
+                        return accumulator
+                    },
+                {})
+                return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
+            }
+    
+            else if(infoList == 2){ // Casino
+                var column = dataObj.list.map(function(innerContent) {
+                    return [
+                        innerContent.player_id.slice(), innerContent.value.slice(), innerContent.operation_id.slice(), innerContent.operation_id.slice() 
+                     ]
+                })
+    
+                let map = column.reduce(
+                    (accumulator, [id, value, condition]) => {
+                        accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
+                    
+                        accumulator[id].count++;
+                        if (condition == "101") {
+                        accumulator[id].positiveValue += Number(value)
+                        }
+                        else {
+                        accumulator[id].negativeValue += Number(value)
+                        }
+        
+                        return accumulator
+                    },
+                {})
+                return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
+            }
+        }
+
+        // Retorna um objeto com a soma das colunas solicitadas
+        
+        // Consfigurando para ficar uma array com a adição do objeto com a soma das colunas solicitadas
+        let faturamento = getApiArrays()
+        
+        faturamento = faturamento.map(([id, positiveValue, negativeValue, count]) =>{
+            const combinedValue = positiveValue - negativeValue
+            return [
+                id,
+                positiveValue, 
+                negativeValue, 
+                count, 
+                combinedValue,
+            ]
+        })
+        
+        // Ordenar em ordem decrescente
+        // faturamento.sort((a,b) => b[Number(4)] - a[Number(4)])
+
+        return faturamento
     }
 
+    formactTable(dataChoice){
+        let startDate = document.querySelector('#dtInicio').value
+        let endDate = document.querySelector('#dtFinal').value
+
+        startDate = String(startDate) + " 00:00:00"
+        endDate = String(endDate) + " 23:59:59" 
+
+        let dataArray = this.getTopPlayersArray(dataChoice)
+        let title = ["Id Jogador", "Valor Total Apostado", "Valor total Premiado", "Quantidade de apostas", "Ggr Total"]
+
+
+    }
 }
