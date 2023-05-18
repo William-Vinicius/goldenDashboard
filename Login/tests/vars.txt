@@ -1,0 +1,60 @@
+//User 
+let user_id
+let user_name 
+let status
+let register_date
+let last_login
+let online_balance
+let bonus_balance
+let reliability_factor
+let phone
+let email
+let zip_code 
+let county_name 
+let state_name 
+let first_deposit_date 
+let last_deposit_date
+let affiliate_id 
+let affiliate_name 
+let regional_id 
+let regional_namem
+let local_id 
+let local_name
+
+//Cassino
+let player_id
+let operation_id
+let operation_name // Cassino Prize or Cassino Bet
+let value
+let date
+let game
+let game_id
+
+//Apostas espotivas
+let bet_id 
+let user_id 
+let user
+let num_events 
+let bet_date 
+let bet_result_date 
+let bet_cancellation_date 
+let bet_value 
+let bet_prize_value 
+let total_odd_multiplier 
+let bet_result 
+let bet_type 
+let bet_status 
+let bet_events 
+// [
+//     {
+    let sport_name
+    let league_id
+    let league_name
+    let event_id
+    let event
+    let event_result
+    let event_active
+    let parcial_value
+    let odd_multiplier
+// }
+//     ]

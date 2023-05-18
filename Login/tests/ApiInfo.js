@@ -211,12 +211,9 @@ class ApiInfo{
 
 const api = new ApiInfo()
 class DataWorks{
-    betWin
 
     async getTopPlayersArray(dateStart,dateEnd, infoList = 2){
         const dataObj = await api.useApi(dateStart, dateEnd, infoList)
-
-        console.log(dataObj)
 
         // Forma de Pegar uma coluna
         function getApiArrays() {
@@ -224,7 +221,7 @@ class DataWorks{
                 var column = dataObj.map(function(innerContent) {
                     return [
                         innerContent.user_id.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
-                     ]
+                    ]
                 })
     
                 let map = column.reduce(
@@ -232,12 +229,14 @@ class DataWorks{
                         accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
                     
                         accumulator[id].count++;
-                        if (condition == "Cashout" ) {
-                        accumulator[id].positiveValue += Number(value)
-                        }
-                        else {
-                        accumulator[id].positiveValue += Number(value)
-                        accumulator[id].negativeValue += Number(value) * multi
+                        if(condition != "Pendent"){
+                            if (condition == "Cashout" ) {
+                                accumulator[id].positiveValue += Number(value)
+                            }
+                            else {
+                                accumulator[id].positiveValue += Number(value)
+                                accumulator[id].negativeValue += Number(value) * multi
+                            }
                         }
         
                         return accumulator
@@ -247,9 +246,10 @@ class DataWorks{
             }
     
             else if(infoList == 2){ // Casino
+
                 var column = dataObj.list.map(function(innerContent) {
                     return [
-                        innerContent.player_id.slice(), innerContent.value.slice(), innerContent.operation_id.slice(), innerContent.operation_id.slice() 
+                        innerContent.player_id.slice(), innerContent.value.slice(), innerContent.operation_id.slice() 
                      ]
                 })
     
@@ -292,6 +292,16 @@ class DataWorks{
         // faturamento.sort((a,b) => b[Number(4)] - a[Number(4)])
 
         return faturamento
+    }
+
+    async getDaylyactivityArray(dateStart,dateEnd, infoList){
+        const dataObj = await api.useApi(dateStart, dateEnd, infoList)
+
+        var table = dataObj.map(function(innerContent) {
+            return [
+                innerContent.bet_date.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
+            ]
+        })
     }
 
     formactTable(dataChoice){
