@@ -22,13 +22,13 @@
                 <ul class="pages">
 
                     <a href="registrations/regUser.php">
-                        <li class="redirect bt-color "> Extrato dos afiliados </li>
+                        <li class="redirect bt-color "> Criação Novo Login </li>
                     </a>
-                    <a href="graphs/testGraph.php">
-                        <li class="redirect bt-color"> Depósitos & Saques </li>
+                    <a href="testpage1.php">
+                        <li class="redirect bt-color"> Top jogadores (Esportes)</li>
                     </a>
                     <a href="#pg3">
-                        <li class="redirect bt-color"> Popularidade dos Cassinos </li>
+                        <li class="redirect bt-color"> Top Jogadores (Cassino) </li>
                     </a>
                 </ul>
                 <ul class="pages">

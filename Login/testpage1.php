@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../src/css/styles.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="shortcut icon" href="src/img/favcon.png">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <title>Dashboard1</title>
@@ -26,10 +26,10 @@
 
             <div class="menu-bar">
                 <ul>
-                    <a href="../index.html"><li class="menu-box">Principal</li></a>
-                    <a href="dashboard1.html"><li class="menu-box">Dashboard1</li></a>
-                    <a href="dashboard2.html"><li class="menu-box">Dashboard2</li></a>
-                    <a href="dashboard3.html"><li class="menu-box">Dashboard3</li></a>
+                    <a href="#"><li class="menu-box">Principal</li></a>
+                    <a href="#"><li class="menu-box">Dashboard1</li></a>
+                    <a href="#"><li class="menu-box">Dashboard2</li></a>
+                    <a href="#"><li class="menu-box">Dashboard3</li></a>
                 </ul>
             </div>
         </div>
@@ -74,32 +74,37 @@
                     </select>
                     <div>
 
-                        <form action="../src/php/database.php" method="get">
 
-                            <div class="rows">
-                                <input type="date" name="dt-search-beginning" class="dt-input">
-                                <spam class="lil-margin"> - </spam>
-                                <input type="date" name="dt-search-end" class="dt-input">
-                            </div>
+
+                        <div class="rows">
+                            <input type="date" name="dt-search-beginning" id="dtInicio"class="dt-input">
+                            <spam class="lil-margin"> - </spam>
+                            <input type="date" name="dt-search-end" id="dtFinal" class="dt-input">
+                        </div>
                     </div>
                         
-                    <input type="submit" value="Pesquisar" class="bt-color src-button">
+                    <input type="button" value="Pesquisar" onclick="dat.formactTable(1)" class="bt-color src-button">
 
-                    </form>
                     <div class="rows space-down">
-                        <form action="FILTRAR POR PALAVRAS AQUI" method="get">
                             <input type="search" name="txFilter" id="txFilter" class="txInput" maxlength="16" placeholder="Filtrar">
                             <label for="btFilter">
                                 
                                 <i class="ph-bold ph-magnifying-glass" style="color:#282a49; font-size: 1.5rem; cursor: pointer;"></i>
                                
                             </label>
-                            <input type="submit" value="filtrar" id="btFilter" class="no-display">
-                        </form>
+                            <input type="button" value="filtrar" id="btFilter" onclick="" class="no-display">
                     </div>
+
                 </div>
             </div>
+            <div id="tabela" class = "txInput"></div>
         </div>
     </div>
+
+
+    <script src="classes/ApiInfo.js"></script>
+	<script>
+		const dat = new DataWorks()
+	</script>
 </body>
 </html>

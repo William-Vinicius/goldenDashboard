@@ -114,22 +114,24 @@ class ApiInfo{
         
         const apiKey = ["x-api-key", "f6d7f7abb1ff0e3b1557db73427f33912a514cd63c0aeec9ae"]
         const headerRequest = ['Application-Authorization', await this.authHandlerInstance.getAuth()]
-        let dateHeader
-
+        
         switch(infoList){
             case 0: // Usuários
                 infoList = "https://apiv2dev.sga.bet/integrations/players/listInfos" 
-                dateHeader = {start:"start_date", final:"final_date"}
+                dateStart = ["start_date", dateStart]
+                dateEnd = ["final_date", dateEnd]
             break
             
             case 1: // Apostas esportivas
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/list"
-                dateHeader = {start:"date_start", final:"date_final"}
+                dateStart = ["date_start", dateStart]
+                dateEnd = ["date_final", dateEnd]
             break
             
             case 2: // Apostas Cassino
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/casino"
-                dateHeader = {start:"start_date", final:"final_date"}
+                dateStart = ["start_date", dateStart]
+                dateEnd = ["final_date", dateEnd]
                 break
 
             default:
@@ -137,43 +139,7 @@ class ApiInfo{
                 console.log("Erro ao informar a lista desejada")
             break
         }
-        console.log(dateHeader.start)
-        function setRequest(start= "2023-05-05 00:00:00",final= "2023-05-15 00:00:00", url){
-            
-            let sdate = new Date(start)
-            let fdate = new Date(final)
-            console.log(sdate, fdate)
-            
-            // Poupar recursos
-            let ndate
-            let sdateString
-            let ndateString
-            
-            for(sdate; sdate <= fdate; sdate.setDate(sdate.getDate() + 1)){
-                ndate = sdate.setDate(sdate.getDate() + 1)
-                sdateString = sdate.toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
-                })
-                ndateString = ndate.toLocaleString("en-US", {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    second: "2-digit"
-                })
-
-                console.log(dateHeader.start)
-
-            }
-        }
-
-
+        
         var Head = new Headers()
             Head.append(apiKey[0], apiKey[1]) 
             Head.append(headerRequest[0], headerRequest[1])
@@ -189,17 +155,16 @@ class ApiInfo{
             body: Body,
             redirect: 'follow'
         }
-        async function getTable(){
-            try { // Tenta utilizar a API e colocar na variável table e retornar ele
-                const response = await fetch(infoList, requestOptions)
-                const result = await response.json()
-                table = result["data"]
-                console.log(table)
-                return table
-            }
-            catch (error) {
-                console.log(error)
-            }
+        
+        try { // Tenta utilizar a API e colocar na variável table e retornar ele
+            const response = await fetch(infoList, requestOptions)
+            const result = await response.json()
+            table = result["data"]
+            console.log(table)
+            return table
+        }
+        catch (error) {
+            console.log(error)
         }
 
         console.log(table)

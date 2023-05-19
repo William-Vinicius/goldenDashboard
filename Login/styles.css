@@ -381,16 +381,3 @@ table td{
     border: 1px solid #737DEB;
 
 }
-.title-row{
-    background-color:#666dc5;
-}
-
-table {
-    border-collapse: collapse;
-    border-color: #353a77;
-
-}
-
-tr:first-child td:first-child {
-    background-color: gray;
-}
