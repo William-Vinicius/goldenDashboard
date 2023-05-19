@@ -137,6 +137,26 @@ class ApiInfo{
                 console.log("Erro ao informar a lista desejada")
             break
         }
+        const requestOptions = {
+            method: 'POST',
+            headers: Head,
+            body: Body,
+            redirect: 'follow'
+        }
+
+        async function getTable(){
+            try { // Tenta utilizar a API e colocar na variável table e retornar ele
+                const response = await fetch(infoList, requestOptions)
+                const result = await response.json()
+                table = result["data"]
+                console.log(table)
+                return table
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+
         console.log(dateHeader.start)
         function setRequest(start= "2023-05-05 00:00:00",final= "2023-05-15 00:00:00", url){
             
@@ -170,35 +190,16 @@ class ApiInfo{
 
                 console.log(dateHeader.start)
 
-            }
-        }
+                var Head = new Headers()
+                    Head.append(apiKey[0], apiKey[1]) 
+                    Head.append(headerRequest[0], headerRequest[1])
+            
+                var Body = new FormData()
+                    Body.append(dateHeader.start, sdateString)
+                    Body.append(dateHeader.final, ndateString)
+            
+                
 
-
-        var Head = new Headers()
-            Head.append(apiKey[0], apiKey[1]) 
-            Head.append(headerRequest[0], headerRequest[1])
-        
-        var Body = new FormData()
-            Body.append(dateStart[0], dateStart[1])
-            if(headerRequest[1] )
-            Body.append(dateEnd[0], dateEnd[1])
-        
-        const requestOptions = {
-            method: 'POST',
-            headers: Head,
-            body: Body,
-            redirect: 'follow'
-        }
-        async function getTable(){
-            try { // Tenta utilizar a API e colocar na variável table e retornar ele
-                const response = await fetch(infoList, requestOptions)
-                const result = await response.json()
-                table = result["data"]
-                console.log(table)
-                return table
-            }
-            catch (error) {
-                console.log(error)
             }
         }
 
