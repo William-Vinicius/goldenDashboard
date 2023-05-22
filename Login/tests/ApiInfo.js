@@ -1,3 +1,4 @@
+// Classe para configuração dos cookies
 class CookieHandler{
 
     cookieExists(cookieName) {
@@ -19,7 +20,7 @@ class CookieHandler{
         
         if(cookieData[0]){
             return cookieData[1].split('=')[1]
-        }
+        }x
     }
     
     setCookie(name, value, valDate){
@@ -35,7 +36,7 @@ const ch = new CookieHandler()
 // Classe de validação da chave de acesso + liberação do JSON
 class ApiInfo{
     
-    constructor() {
+    constructor() { // Feito para conseguir chamar variável privada "auth"
         this.authHandlerInstance = this.authHandler()
     }
     
@@ -56,15 +57,18 @@ class ApiInfo{
     
     // Atualiza o um novo código para o auth
     async  GetNewToken(){ // Retorna uma nova autorização
-    
-        let token = "Teste"
+        
+        //Declarando variável e atribuindo valor caso fetch falhe
+        let token = "Erro"
         
         const apiKey = ["x-api-key", "f6d7f7abb1ff0e3b1557db73427f33912a514cd63c0aeec9ae"]
         const loginData = [["login", "jogodeouro"], ["password", "2w308efh"]] // Inutil por enquanto, mas pode ser útil
         
+        //Head do HTTP request
         var Head = new Headers()
             Head.append(apiKey[0], apiKey[1])
         
+        // Body do HTTP Request
         var Body = new FormData()
             Body.append("login", "jogodeouro")
             Body.append("password", "2w308efh")
@@ -109,7 +113,12 @@ class ApiInfo{
     
     // Função que retorna uma array com todos os dados do sistema seguindo um período determinado pela data de inicio e final
     async useApi(dateStart, dateEnd, infoList = 0){
+        console.log(infoList)
+
+
         let table = "Teste"
+        let dateString
+
         await this.setAuthCookie()
         
         const apiKey = ["x-api-key", "f6d7f7abb1ff0e3b1557db73427f33912a514cd63c0aeec9ae"]
@@ -118,20 +127,17 @@ class ApiInfo{
         switch(infoList){
             case 0: // Usuários
                 infoList = "https://apiv2dev.sga.bet/integrations/players/listInfos" 
-                dateStart = ["start_date", dateStart]
-                dateEnd = ["final_date", dateEnd]
+                dateString = {start: "start_date", final: "final_date"}
             break
             
             case 1: // Apostas esportivas
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/list"
-                dateStart = ["date_start", dateStart]
-                dateEnd = ["date_final", dateEnd]
+                dateString = {start: "date_start", final: "date_final"}
             break
             
             case 2: // Apostas Cassino
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/casino"
-                dateStart = ["start_date", dateStart]
-                dateEnd = ["final_date", dateEnd]
+                dateString = {start: "final_date", final: "start_date"}                
                 break
 
             default:
@@ -139,34 +145,98 @@ class ApiInfo{
                 console.log("Erro ao informar a lista desejada")
             break
         }
-        
-        var Head = new Headers()
-            Head.append(apiKey[0], apiKey[1]) 
-            Head.append(headerRequest[0], headerRequest[1])
-        
-        var Body = new FormData()
-            Body.append(dateStart[0], dateStart[1])
-            if(headerRequest[1] )
-            Body.append(dateEnd[0], dateEnd[1])
-        
-        const requestOptions = {
-            method: 'POST',
-            headers: Head,
-            body: Body,
-            redirect: 'follow'
-        }
-        
-        try { // Tenta utilizar a API e colocar na variável table e retornar ele
-            const response = await fetch(infoList, requestOptions)
-            const result = await response.json()
-            table = result["data"]
-            console.log(table)
-            return table
-        }
-        catch (error) {
-            console.log(error)
+        console.log(infoList)
+
+        // read do HTTP Request
+        const Head = new Headers()
+        Head.append(apiKey[0], apiKey[1]) 
+        Head.append(headerRequest[0], headerRequest[1])
+
+        async function getApiData(Body){
+
+            let requestOptions = {
+                method: 'POST',
+                headers: Head,
+                body: Body,
+                redirect: 'follow'
+            }
+
+            try { // Tenta utilizar a API e colocar na variável table e retornar ele
+                const response = await fetch(infoList, requestOptions)
+                const result = await response.json()
+                let data = result["data"]
+                console.log(data)
+                return data
+            }
+            catch (error) {
+                console.log(error)
+            }
         }
 
+        function Hold(sec) {
+            const time = sec * 1000
+            return new Promise((resolve) => {
+                setTimeout(resolve, time)
+            })
+        }
+
+        async function aaa(start, end){
+
+            // Converte data para string para usar
+            function date2String(date,beggining, dayStart, dayBreak) {
+
+                var newdate = date.toISOString().replace("T", " ").slice(0, -13)
+
+               
+                    if(beggining == true){
+                        if(dayStart < 10){
+                            newdate = `${newdate}0${dayStart}:00:00`
+                        }
+                        else{
+                            newdate = `${newdate}${dayStart}:00:00`
+                        }
+                    }
+                    else{
+                        if(dayBreak < 10){
+                            newdate = `${newdate}0${dayBreak}:59:59`
+                        }
+                        else{
+                            newdate = `${newdate}${dayBreak}:59:59`
+                        }
+                    }
+                console.log(newdate);
+                return newdate
+            }
+
+            let sDate = new Date(start)
+            let fDate = new Date(end)
+            let data = []
+            let cont = 0
+            let cont2
+            let limit = 1
+
+            for(sDate; sDate <= fDate; sDate.setDate(sDate.getDate() + 1)){
+                for(cont; cont <= 22; cont+= limit){
+                    cont2 = cont + limit
+                    start = date2String(sDate,true, cont, cont2)
+                    end = date2String(sDate,false, cont, cont2)
+                
+                    // Body do HTTP Request
+                    var Body = new FormData()
+                        Body.append(dateString.start, start)
+                        Body.append(dateString.final, end)
+
+                    console.log(Body)
+                    data = await getApiData(Body)
+                    Hold(1)
+                }
+                cont = 0
+            }
+            return data
+       }
+
+
+       table = await aaa("2023-05-01 00:00:00", "2023-05-07 23:59:59")
         console.log(table)
         return table
     }
@@ -174,10 +244,10 @@ class ApiInfo{
     dataFilter(dataArray, filterString = "") { //filtra os dados de uma lista, mostrando todas as sub-arrays se houver
         filterString = filterString.toLowerCase()
 
-        const filteredArray = dataArray.filter(valores =>
-            Array.isArray(valores)
-            ? valores.some(valor => valor.toLowerCase().includes(filterString))
-            : valores.toLowerCase().includes(filterString)
+        const filteredArray = dataArray.filter(data =>
+            Array.isArray(data)
+            ? data.some(valor => valor.toLowerCase().includes(filterString))
+            : data.toLowerCase().includes(filterString)
         )
 
         console.log(filteredArray)
@@ -191,7 +261,7 @@ class ApiInfo{
         let tabelaHTML = '<table><tr>'
 
         titles.forEach(data => {
-            tabelaHTML += '<td>' + data + '</td>'
+            tabelaHTML += '<th>' + data + '</th>'
         })
         
         dataArray.forEach(valuesArray => {
@@ -213,9 +283,10 @@ const api = new ApiInfo()
 class DataWorks{
 
     async getTopPlayersArray(dateStart,dateEnd, infoList = 2){
+        
         const dataObj = await api.useApi(dateStart, dateEnd, infoList)
 
-        // Forma de Pegar uma coluna
+        // Retorna uma array com a as informações agrupadas pelo id do Apostador
         function getApiArrays() {
             if(infoList == 1){ // Esportes
                 var column = dataObj.map(function(innerContent) {
@@ -223,7 +294,7 @@ class DataWorks{
                         innerContent.user_id.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
                     ]
                 })
-    
+                
                 let map = column.reduce(
                     (accumulator, [id, value, condition, multi]) => {
                         accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
@@ -244,7 +315,7 @@ class DataWorks{
                 {})
                 return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
             }
-    
+
             else if(infoList == 2){ // Casino
 
                 var column = dataObj.list.map(function(innerContent) {
@@ -253,7 +324,7 @@ class DataWorks{
                      ]
                 })
     
-                let map = column.reduce(
+                let map = column.reduce( 
                     (accumulator, [id, value, condition]) => {
                         accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
                     
@@ -272,11 +343,12 @@ class DataWorks{
             }
         }
 
-        // Retorna um objeto com a soma das colunas solicitadas
+
         
         // Consfigurando para ficar uma array com a adição do objeto com a soma das colunas solicitadas
         let faturamento = getApiArrays()
         
+        // Retorna o array de getApiArrays, junto ao  
         faturamento = faturamento.map(([id, positiveValue, negativeValue, count]) =>{
             const combinedValue = positiveValue - negativeValue
             return [
@@ -294,24 +366,18 @@ class DataWorks{
         return faturamento
     }
 
-    async getDaylyactivityArray(dateStart,dateEnd, infoList){
-        const dataObj = await api.useApi(dateStart, dateEnd, infoList)
-
-        var table = dataObj.map(function(innerContent) {
-            return [
-                innerContent.bet_date.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
-            ]
-        })
-    }
-
-    formactTable(dataChoice){
+    async formactTable(dataChoice){ // Configurar as tabelas e deixar de forma bonita
+        // Pega os dados dos input com os Ids abaixo
         let startDate = document.querySelector('#dtInicio').value
         let endDate = document.querySelector('#dtFinal').value
 
         startDate = String(startDate) + " 00:00:00"
         endDate = String(endDate) + " 23:59:59" 
+        
+        console.log(startDate)
+        console.log(endDate)
 
-        let dataArray = this.getTopPlayersArray(dataChoice)
+        let dataArray = await this.getTopPlayersArray(endDate,startDate,dataChoice)
         let title = ["Id Jogador", "Valor Total Apostado", "Valor total Premiado", "Quantidade de apostas", "Ggr Total"]
 
 
