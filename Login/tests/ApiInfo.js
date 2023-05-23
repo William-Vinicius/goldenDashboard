@@ -180,14 +180,23 @@ class ApiInfo{
             })
         }
 
-        async function aaa(start, end){
+        async function dateDivision(start, end, time){
 
             // Converte data para string para usar
-            function date2String(date,beggining, dayStart, dayBreak) {
-
+            function date2String(date,beggining){
                 var newdate = date.toISOString().replace("T", " ").slice(0, -13)
+                if(!time.active){
+                    if(beggining == true){
+                        newdate = `${newdate}00:00:00`
+                    }
+                    else{
+                        newdate = `${newdate}${dayBreak}:59:59`
+                    }
+                }
+                else{
+                    const dayStart = time.cont
+                    const dayBreak = time.cont + time.pace
 
-               
                     if(beggining == true){
                         if(dayStart < 10){
                             newdate = `${newdate}0${dayStart}:00:00`
@@ -201,25 +210,31 @@ class ApiInfo{
                             newdate = `${newdate}0${dayBreak}:59:59`
                         }
                         else{
+                            if(dayBreak > 23){
+                                dayBreak = 23
+                                
+                            }
                             newdate = `${newdate}${dayBreak}:59:59`
                         }
                     }
-                console.log(newdate);
-                return newdate
+                }
             }
 
             let sDate = new Date(start)
             let fDate = new Date(end)
             let data = []
-            let cont = 0
-            let cont2
-            let limit = 1
+
+            let timeConfig = {
+                active:false,
+                cont: 0,
+                pace: 23,
+            }
 
             for(sDate; sDate <= fDate; sDate.setDate(sDate.getDate() + 1)){
-                for(cont; cont <= 22; cont+= limit){
-                    cont2 = cont + limit
-                    start = date2String(sDate,true, cont, cont2)
-                    end = date2String(sDate,false, cont, cont2)
+                if(timeConfig.active){
+                }
+                    start = date2String(sDate,true, timeConfig)
+                    end = date2String(sDate,false, timeConfig)
                 
                     // Body do HTTP Request
                     var Body = new FormData()
@@ -229,14 +244,12 @@ class ApiInfo{
                     console.log(Body)
                     data = await getApiData(Body)
                     Hold(1)
-                }
-                cont = 0
             }
+            // cont = 0
             return data
        }
 
-
-       table = await aaa("2023-05-01 00:00:00", "2023-05-07 23:59:59")
+       table = await dateDivision('2023-05-01 00:00:00' , '2023-05-01 23:59:59')
         console.log(table)
         return table
     }
@@ -254,9 +267,7 @@ class ApiInfo{
         return filteredArray
     }
     
-    drawDataTable(dataObject, titles){ // Coloca a array em formato de tabela
-
-        const dataArray = dataObject.map(obj => Object.values(obj).map(value => String(value))) // trocando o objeto para uma array
+    drawDataTable(dataArray, titles){ // Coloca a array em formato de tabela
 
         let tabelaHTML = '<table><tr>'
 
@@ -265,17 +276,17 @@ class ApiInfo{
         })
         
         dataArray.forEach(valuesArray => {
-            tabelaHTML += '<tr>';
+            tabelaHTML += '<tr>'
 
             valuesArray.forEach(value => {
-                tabelaHTML += '<td>' + value + '</td>';
-            });
-            tabelaHTML += '</tr>';
-        });
+                tabelaHTML += '<td>' + value + '</td>'
+            })
+            tabelaHTML += '</tr>'
+        })
 
-        tabelaHTML += '</table>';
+        tabelaHTML += '</table>'
         console.log(dataArray[0].length)
-        document.querySelector('#tabela').innerHTML = tabelaHTML;
+        document.querySelector('#tabela').innerHTML = tabelaHTML
     }
 }
 
@@ -342,9 +353,6 @@ class DataWorks{
                 return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
             }
         }
-
-
-        
         // Consfigurando para ficar uma array com a adição do objeto com a soma das colunas solicitadas
         let faturamento = getApiArrays()
         
@@ -371,8 +379,8 @@ class DataWorks{
         let startDate = document.querySelector('#dtInicio').value
         let endDate = document.querySelector('#dtFinal').value
 
-        startDate = String(startDate) + " 00:00:00"
-        endDate = String(endDate) + " 23:59:59" 
+        startDate = String(startDate)
+        endDate = String(endDate)
         
         console.log(startDate)
         console.log(endDate)
@@ -380,6 +388,6 @@ class DataWorks{
         let dataArray = await this.getTopPlayersArray(endDate,startDate,dataChoice)
         let title = ["Id Jogador", "Valor Total Apostado", "Valor total Premiado", "Quantidade de apostas", "Ggr Total"]
 
-
+        drawDataTable(dataArray, title)
     }
 }

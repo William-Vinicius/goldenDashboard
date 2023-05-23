@@ -1,5 +1,4 @@
 <?php
-include '../autoload.php';
 $connection = new connection();
 class user
 {

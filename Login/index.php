@@ -2,9 +2,11 @@
     include 'autoload.php';
     $head = new head();
     $user = new user();
+    $conn = new connection();
 
     $head->secure();
-    $head->setTitle("Menu Principal")
+    $head->setTitle("Menu Principal");
+    $conn->getConnection();
 ?>
 <body>    
     <div class="menu-margin">
