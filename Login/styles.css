@@ -32,7 +32,7 @@ header{
 }
 .container{
     background-color: #737DEB;
-    display: -webkit-box;
+        display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
@@ -221,6 +221,7 @@ nav>h1{
 }
 .menu-margin{
     margin: 1rem 0rem 0rem 1rem;
+    z-index: 5;
     position: absolute;
 }
 
@@ -239,7 +240,9 @@ div.menu-bar{
     transition-duration: .25s;
     transform: translateX(-500px);
 }
-
+.menu-top-ul{
+    margin-top: 4rem;
+}
 li.menu-box{
     width: 15rem;
     font: bold 1.2rem Arial, sans-serif;
