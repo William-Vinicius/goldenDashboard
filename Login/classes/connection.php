@@ -21,23 +21,19 @@ class connection{
         $pdo = $this->pdo;
 
         try{
-            $pdo = new PDO("mysql:dbname$dbname;host=$host;port=$port", $dbuser, $dbpassword);
+            $pdo = new PDO("mysql:dbname=$dbname;host=$host;port=$port", $dbuser, $dbpassword);
             
-            $useQuery = 'USE :dbname;';  
+            $useQuery = "USE $dbname;";  
             $useDb = $pdo->prepare($useQuery);
-            $useDb->bindParam(":dbname", $dbname, PDO::PARAM_EVT_EXEC_PRE);
-            var_dump($useDb);
             $useDb->execute();
             $this->pdo = $pdo;
-            echo "Teste1";
-            var_dump($this->pdo);
             
             return true;
     
         }
         catch(PDOException $erro){
 
-            echo $erro;
+            error_log($erro); 
             return false;
         }
     }   

@@ -1,5 +1,4 @@
 <?php
-$connection = new connection();
 class user
 {
     public function login($username, $password){
@@ -32,8 +31,8 @@ class user
             return false;
         }
         else{
-            global $connection;
-            $pdo = $connection->getPdo();
+            global $conn;
+            $pdo = $conn->getPdo();
 
             $password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -56,8 +55,8 @@ class user
         $resultQuery = $this->rowCount("", $login, "");
 
         if($resultQuery[0] == true){
-            global $connection;
-            $pdo = $connection->getPdo();
+            global $conn;
+            $pdo = $conn->getPdo();
 
             $validation = $resultQuery[1]->fetch(PDO::FETCH_ASSOC);
             $recoveryKey = password_hash($validation['idUser'],  PASSWORD_DEFAULT);
@@ -92,8 +91,8 @@ class user
         $resultQuery = $this->recoveryCheck($passwordKey);
 
         if($resultQuery[0] == true){
-            global $connection;
-            $pdo = $connection->getPdo();
+            global $conn;
+            $pdo = $conn->getPdo();
             
             $validation = $resultQuery[1]->fetch(PDO::FETCH_ASSOC);
             $newPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -125,8 +124,8 @@ class user
             $param = ":username";
         }
 
-        global $connection;
-        $pdo = $connection->getPdo();
+        global $conn;
+        $pdo = $conn->getPdo();
 
         $resultQuery = $pdo->prepare($query);
         $resultQuery->bindParam($param, $key, PDO::PARAM_STR);
@@ -147,10 +146,10 @@ class user
     
     public function getUsers($maxValues = 50){
 
-        global $connection;
-        $pdo = $connection->getPdo();
+        global $conn;
+        $pdo = $conn->getPdo();
 
-        $connection->getConnection();
+        $conn->getConnection();
         
         // if($id != ''){
         $query = "SELECT idUser, nameUser, loginUser FROM tbUser ". $this->getOrder() ." LIMIT :limitKey";
