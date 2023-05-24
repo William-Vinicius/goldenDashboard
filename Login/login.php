@@ -7,6 +7,7 @@
     $conn = new connection();
 
     $head->setTitle("Teste Login");
+    $dbverify = $conn->getConnection();
 
     if(isset($_COOKIE['LoginValidation'])){
         $head->Redirect('index.php', false);
@@ -18,7 +19,7 @@
         $dbverify = $conn->getConnection();
 
         if($dbverify == true){
-            $loginValidation = $user->login( $dados['login'], $dados['password'] );
+            $loginValidation = $user->login($dados['login'], $dados['password']);
         
             if($loginValidation == true){
                 $head->Redirect('index.php', false);

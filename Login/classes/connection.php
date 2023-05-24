@@ -7,6 +7,7 @@ class connection{
     private $port= 3306;
     private $dbuser = 'root';
     private $dbpassword = 'admin';
+
     private $pdo;
 
 
@@ -17,24 +18,25 @@ class connection{
         $port = $this->port;
         $dbuser = $this->dbuser;
         $dbpassword = $this->dbpassword;
-
-        global $pdo;
-
-         var_dump($this->dbname,$this->host,$this->port,$this->dbuser,$this->dbpassword);
+        $pdo = $this->pdo;
 
         try{
-            $pdo = new PDO("mysql:dbname=$dbname;host=$host;port=$port", $dbuser, $dbpassword);
+            $pdo = new PDO("mysql:dbname$dbname;host=$host;port=$port", $dbuser, $dbpassword);
             
-            $useQuery = "USE :dbname";  
+            $useQuery = 'USE :dbname;';  
             $useDb = $pdo->prepare($useQuery);
-            $useDb->bindParam(':dbname', $dbname);
+            $useDb->bindParam(":dbname", $dbname, PDO::PARAM_EVT_EXEC_PRE);
+            var_dump($useDb);
             $useDb->execute();
-            // $this->pdo = $pdo;
+            $this->pdo = $pdo;
+            echo "Teste1";
+            var_dump($this->pdo);
             
             return true;
     
         }
         catch(PDOException $erro){
+
             echo $erro;
             return false;
         }
@@ -43,7 +45,7 @@ class connection{
     /*Get the value of pdo*/ 
     public function getPdo(){
         if($this->getConnection()){
-            echo "/////////////////";
+            echo "teste2";
             var_dump($this->pdo);
             return $this->pdo;
         }
