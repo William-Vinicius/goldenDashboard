@@ -7,7 +7,6 @@
     $conn = new connection();
 
     $head->setTitle("Teste Login");
-    $dbverify = $conn->getConnection();
 
     if(isset($_COOKIE['LoginValidation'])){
         $head->Redirect('index.php', false);

@@ -10,7 +10,7 @@
     <div class="container">
         <header>
             <h1>
-                NOME MUITO DAHORA
+                NOME MUITO TEMPORARIO
             </h1>
         </header>
         <div class="rows">
@@ -68,11 +68,7 @@
             </div>
         </div>
         <div class="rows stretch-test" >
-            <?php 
-                include '../autoload.php';
-                $user = new user();
-                $user->getUsers()
-            ?>
+
         </div>
     </div>
 </div>

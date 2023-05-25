@@ -24,20 +24,20 @@
                 <ul class="pages">
 
                     <a href="registrations/regUser.php">
-                        <li class="redirect bt-color "> Extrato dos afiliados </li>
+                        <li class="redirect bt-color "> Teste de cadastro </li>
                     </a>
-                    <a href="graphs/testGraph.php">
-                        <li class="redirect bt-color"> Depósitos & Saques </li>
+                    <a href="tables/topBets.php">
+                        <li class="redirect bt-color"> Teste das Tabelas </li>
                     </a>
-                    <a href="#pg3">
+                    <!-- <a href="#pg3">
                         <li class="redirect bt-color"> Popularidade dos Cassinos </li>
-                    </a>
+                    </a> -->
                 </ul>
-                <ul class="pages">
+                <!-- <ul class="pages">
 
                     <a href="TestPage.html">
                         <li class="redirect bt-color "> Teste de Menu </li>
-                    </a>
+                    </a> -->
                 </ul>
             </nav>
         </div>

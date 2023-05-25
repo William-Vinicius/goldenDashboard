@@ -20,7 +20,7 @@ class CookieHandler{
         
         if(cookieData[0]){
             return cookieData[1].split('=')[1]
-        }x
+        }
     }
     
     setCookie(name, value, valDate){
@@ -112,7 +112,7 @@ class ApiInfo{
     }
     
     // Função que retorna uma array com todos os dados do sistema seguindo um período determinado pela data de inicio e final
-    async useApi(dateStart, dateEnd, infoList = 0){
+    async useApi(dateStart, dateEnd, infoList){
         console.log(infoList)
 
 
@@ -137,7 +137,7 @@ class ApiInfo{
             
             case 2: // Apostas Cassino
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/casino"
-                dateString = {start: "final_date", final: "start_date"}                
+                dateString = {start: "start_date", final: "final_date"}                
                 break
 
             default:
@@ -145,7 +145,6 @@ class ApiInfo{
                 console.log("Erro ao informar a lista desejada")
             break
         }
-        console.log(infoList)
 
         // read do HTTP Request
         const Head = new Headers()
@@ -160,37 +159,51 @@ class ApiInfo{
                 body: Body,
                 redirect: 'follow'
             }
-
-            try { // Tenta utilizar a API e colocar na variável table e retornar ele
-                const response = await fetch(infoList, requestOptions)
-                const result = await response.json()
-                let data = result["data"]
-                console.log(data)
-                return data
+            if(infoList == 2){
+                try { // Tenta utilizar a API e colocar na variável table e retornar ele
+                    const response = await fetch(infoList, requestOptions)
+                    const result = await response.json()
+                    let data = result["list"]
+                    console.log(data)
+                    return data
+                }
+                catch (error) {
+                    console.log(error)
+                }
             }
-            catch (error) {
-                console.log(error)
+            else {
+                try { // Tenta utilizar a API e colocar na variável table e retornar ele
+                    const response = await fetch(infoList, requestOptions)
+                    const result = await response.json()
+                    let data = result["data"]
+                    console.log(data)
+                    return data
+                }
+                catch (error) {
+                    console.log(error)
+                }
             }
         }
 
-        function Hold(sec) {
+        function Hold(sec = 1) {
             const time = sec * 1000
             return new Promise((resolve) => {
-                setTimeout(resolve, time)
-            })
-        }
+              setTimeout(resolve, time)
+            });
+          }
+          
 
-        async function dateDivision(start, end, time){
+        async function dateDivision(start, end){
 
             // Converte data para string para usar
-            function date2String(date,beggining){
+            function date2String(date,beggining, time){
                 var newdate = date.toISOString().replace("T", " ").slice(0, -13)
                 if(!time.active){
                     if(beggining == true){
                         newdate = `${newdate}00:00:00`
                     }
                     else{
-                        newdate = `${newdate}${dayBreak}:59:59`
+                        newdate = `${newdate}23:59:59`
                     }
                 }
                 else{
@@ -217,7 +230,9 @@ class ApiInfo{
                             newdate = `${newdate}${dayBreak}:59:59`
                         }
                     }
+                    time.cont = time.cont + time.pace
                 }
+                return newdate
             }
 
             let sDate = new Date(start)
@@ -235,6 +250,8 @@ class ApiInfo{
                 }
                     start = date2String(sDate,true, timeConfig)
                     end = date2String(sDate,false, timeConfig)
+
+                    console.log(start,end)
                 
                     // Body do HTTP Request
                     var Body = new FormData()
@@ -243,13 +260,16 @@ class ApiInfo{
 
                     console.log(Body)
                     data = await getApiData(Body)
-                    Hold(1)
+                    Hold()
             }
             // cont = 0
             return data
        }
 
        table = await dateDivision('2023-05-01 00:00:00' , '2023-05-01 23:59:59')
+
+
+
         console.log(table)
         return table
     }
@@ -287,19 +307,28 @@ class ApiInfo{
         tabelaHTML += '</table>'
         console.log(dataArray[0].length)
         document.querySelector('#tabela').innerHTML = tabelaHTML
+        
+        let tbStyle = document.querySelector('#tabela table').style
+
+        tbStyle.backgroundColor = "#00000066"
+        tbStyle.textAlign = "left"
+        tbStyle.borderCollapse = "collapse"
+
+
     }
 }
 
 const api = new ApiInfo()
 class DataWorks{
 
-    async getTopPlayersArray(dateStart,dateEnd, infoList = 2){
+    async getTopPlayersArray(dateStart, dateEnd, infoList){
         
         const dataObj = await api.useApi(dateStart, dateEnd, infoList)
 
         // Retorna uma array com a as informações agrupadas pelo id do Apostador
-        function getApiArrays() {
-            if(infoList == 1){ // Esportes
+        function getApiArrays(choice = 2) {
+
+            if(choice == 1){ // Esportes
                 var column = dataObj.map(function(innerContent) {
                     return [
                         innerContent.user_id.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
@@ -327,7 +356,7 @@ class DataWorks{
                 return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
             }
 
-            else if(infoList == 2){ // Casino
+            else if(choice == 2){ // Casino
 
                 var column = dataObj.list.map(function(innerContent) {
                     return [
@@ -354,7 +383,7 @@ class DataWorks{
             }
         }
         // Consfigurando para ficar uma array com a adição do objeto com a soma das colunas solicitadas
-        let faturamento = getApiArrays()
+        let faturamento = getApiArrays(infoList)
         
         // Retorna o array de getApiArrays, junto ao  
         faturamento = faturamento.map(([id, positiveValue, negativeValue, count]) =>{
@@ -369,7 +398,7 @@ class DataWorks{
         })
         
         // Ordenar em ordem decrescente
-        // faturamento.sort((a,b) => b[Number(4)] - a[Number(4)])
+        faturamento.sort((a,b) => b[Number(4)] - a[Number(4)])
 
         return faturamento
     }
@@ -388,6 +417,15 @@ class DataWorks{
         let dataArray = await this.getTopPlayersArray(endDate,startDate,dataChoice)
         let title = ["Id Jogador", "Valor Total Apostado", "Valor total Premiado", "Quantidade de apostas", "Ggr Total"]
 
-        drawDataTable(dataArray, title)
+        dataArray = dataArray.map(([id, positiveValue, negativeValue, count, combinedValue]) =>{
+            return [
+                id,
+                positiveValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                negativeValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                count,
+                combinedValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+            ]})
+
+        api.drawDataTable(dataArray, title)
     }
 }

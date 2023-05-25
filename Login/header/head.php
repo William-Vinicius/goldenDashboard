@@ -1,10 +1,8 @@
 <?php
     session_start();
     ob_start();
-
     class head{
-        public function Redirect($url, $permanent = false)
-        {
+        public function Redirect($url, $permanent = false){
             if(file_exists('registrations/' . $url)){
                 header('Location: ' . $url, true, $permanent ? 301 : 302);
                 exit();
@@ -55,8 +53,7 @@
             
         }
 
-        function setTitle($title)
-        {
+        function setTitle($title){
             echo "
             <!DOCTYPE html>
             <html lang='pt-br'>
@@ -75,17 +72,6 @@
                 unset($_SESSION[$msg]);
             }
         }
-        
-        // Configuração de cookies quando possível
-
-        // function SetPrivateCookie($name, $value){
-        //     // $name = "LoginValidation";
-        //     // $value
-        //     $domain = "localhost:8000";
-        //     $httponly = "true";
-        // }
-
-        // colocar os Cookies
 
         function secure(){
             if(!isset($_COOKIE['LoginValidation'])){
@@ -93,8 +79,7 @@
                 $this->Redirect("login.php");
             }
         }
-        public function mainMenu()
-        {
+        public function mainMenu(){
             echo 
                 '<nav>
                     <h1>Menu de navegação</h1>
@@ -110,8 +95,8 @@
                         <div class="menu-bar">
                             <ul>
                                 <div>
-                                    <ul>
-                                        <a href="../index.html"><li class="menu-box">Principal</li></a>
+                                    <ul class="menu-top-ul">
+                                        <a href="../index.php"><li class="menu-box">Principal</li></a>
                                     </ul>
                                 </div>
 
@@ -125,9 +110,9 @@
                                     
                                     <ul class="drop-content">
                                         <a href="#Link 1"><li class="menu-box">Principal</li></a>
-                                        <a href="#Link 2"><li class="menu-box">Dashboard1</li></a>
-                                        <a href="#Link 3"><li class="menu-box">Dashboard2</li></a>
-                                        <a href="#Link 4"><li class="menu-box">Dashboard3</li></a>
+                                        <a href="#Link 2"><li class="menu-box">Exemplo1</li></a>
+                                        <a href="#Link 3"><li class="menu-box">Exemplo2</li></a>
+                                        <a href="#Link 4"><li class="menu-box">Exemplo3</li></a>
                                     </ul>
                                 </div>
                             </ul>

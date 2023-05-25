@@ -6,7 +6,7 @@
 <body>
 	<h1 class="title"></h1>
 	<input type="text" id="filter" onchange="">
-	<input type="button" value="No Ideas :/" onclick="api.useApi('2023-05-01 00:00:00' , '2023-05-01 23:59:59', 1)" >
+	<input type="button" value="Filtrar" onclick="api.useApi('2023-05-01 00:00:00' , '2023-05-01 23:59:59', 1)" >
 	<input type="date" name="" id="dtInicio">
 	<input type="date" name="" id="dtFinal">
 	<input type="button" value="Sort Table" onclick="">
