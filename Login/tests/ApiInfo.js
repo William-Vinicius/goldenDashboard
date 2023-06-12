@@ -5,8 +5,8 @@ class CookieHandler{
         var cookies = document.cookie
         var cookiesArray = cookies.split(';')
         
-        for (var cont = 0; cont < cookiesArray.length; cont++) {
-            var cookie = cookiesArray[cont].trim()
+        for (var i = 0; i < cookiesArray.length; i++) {
+            var cookie = cookiesArray[i].trim()
             if (cookie.startsWith(cookieName + '=')) {
                 return [true, cookie] // Cookie Existe
             }
@@ -207,8 +207,8 @@ class ApiInfo{
                     }
                 }
                 else{
-                    const dayStart = time.cont
-                    const dayBreak = time.cont + time.pace
+                    const dayStart = time.i
+                    const dayBreak = time.i + time.pace
 
                     if(beggining == true){
                         if(dayStart < 10){
@@ -230,7 +230,7 @@ class ApiInfo{
                             newdate = `${newdate}${dayBreak}:59:59`
                         }
                     }
-                    time.cont = time.cont + time.pace
+                    time.i = time.i + time.pace
                 }
                 return newdate
             }
@@ -241,7 +241,7 @@ class ApiInfo{
 
             let timeConfig = {
                 active:false,
-                cont: 0,
+                i: 0,
                 pace: 23,
             }
 
@@ -262,7 +262,7 @@ class ApiInfo{
                     data = await getApiData(Body)
                     Hold()
             }
-            // cont = 0
+            // i = 0
             return data
        }
 
@@ -274,7 +274,7 @@ class ApiInfo{
         return table
     }
 
-    dataFilter(dataArray, filterString = "") { //filtra os dados de uma lista, mostrando todas as sub-arrays se houver
+    dataFilter(dataArray, filterString = "") { //filtra os dados de uma lista, mostrando todas as sub-arrays se houver, Não utilizado ainda 
         filterString = filterString.toLowerCase()
 
         const filteredArray = dataArray.filter(data =>
@@ -287,6 +287,12 @@ class ApiInfo{
         return filteredArray
     }
     
+    
+}
+
+const api = new ApiInfo()
+class DataWorks{
+
     drawDataTable(dataArray, titles){ // Coloca a array em formato de tabela
 
         let tabelaHTML = '<table><tr>'
@@ -316,11 +322,7 @@ class ApiInfo{
 
 
     }
-}
-
-const api = new ApiInfo()
-class DataWorks{
-
+    
     async getTopPlayersArray(dateStart, dateEnd, infoList){
         
         const dataObj = await api.useApi(dateStart, dateEnd, infoList)
@@ -426,6 +428,6 @@ class DataWorks{
                 combinedValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
             ]})
 
-        api.drawDataTable(dataArray, title)
+        this.drawDataTable(dataArray, title)
     }
 }
