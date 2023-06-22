@@ -110,13 +110,14 @@ class ApiInfo{
             console.log("Cookie Detectado. mantendo a autorização para: " + await this.authHandlerInstance.getAuth())
         }
     }
+
+
     
     // Função que retorna uma array com todos os dados do sistema seguindo um período determinado pela data de inicio e final
+    // InfoList se trata de qual API será consumida (talvez precise de um melhor nome)
     async useApi(dateStart, dateEnd, infoList){
         console.log(infoList)
 
-
-        let table = "Teste"
         let dateString
 
         await this.setAuthCookie()
@@ -125,20 +126,20 @@ class ApiInfo{
         const headerRequest = ['Application-Authorization', await this.authHandlerInstance.getAuth()]
         
         switch(infoList){
-            case 0: // Usuários
+            case "usuario": // Usuários
                 infoList = "https://apiv2dev.sga.bet/integrations/players/listInfos" 
                 dateString = {start: "start_date", final: "final_date"}
             break
             
-            case 1: // Apostas esportivas
+            case "esportivo": // Apostas esportivas
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/list"
                 dateString = {start: "date_start", final: "date_final"}
             break
             
-            case 2: // Apostas Cassino
+            case "cassino": // Apostas Cassino
                 infoList = "https://apiv2dev.sga.bet/integrations/bets/casino"
                 dateString = {start: "start_date", final: "final_date"}                
-                break
+            break
 
             default:
                 //Aviso de erro
@@ -159,7 +160,8 @@ class ApiInfo{
                 body: Body,
                 redirect: 'follow'
             }
-            if(infoList == 2){
+            
+            if(infoList == "https://apiv2dev.sga.bet/integrations/bets/list"){  // Viva la gambiarra
                 try { // Tenta utilizar a API e colocar na variável table e retornar ele
                     const response = await fetch(infoList, requestOptions)
                     const result = await response.json()
@@ -185,13 +187,12 @@ class ApiInfo{
             }
         }
 
-        function Hold(sec = 1) {
+        function timeHold(sec = 1) {
             const time = sec * 1000
             return new Promise((resolve) => {
               setTimeout(resolve, time)
             });
-          }
-          
+        }
 
         async function dateDivision(start, end){
 
@@ -260,34 +261,17 @@ class ApiInfo{
 
                     console.log(Body)
                     data = await getApiData(Body)
-                    Hold()
+                    timeHold()
             }
             // i = 0
             return data
-       }
+        }
 
        table = await dateDivision('2023-05-01 00:00:00' , '2023-05-01 23:59:59')
 
-
-
         console.log(table)
         return table
-    }
-
-    dataFilter(dataArray, filterString = "") { //filtra os dados de uma lista, mostrando todas as sub-arrays se houver, Não utilizado ainda 
-        filterString = filterString.toLowerCase()
-
-        const filteredArray = dataArray.filter(data =>
-            Array.isArray(data)
-            ? data.some(valor => valor.toLowerCase().includes(filterString))
-            : data.toLowerCase().includes(filterString)
-        )
-
-        console.log(filteredArray)
-        return filteredArray
-    }
-    
-    
+    }   
 }
 
 const api = new ApiInfo()
@@ -319,91 +303,39 @@ class DataWorks{
         tbStyle.backgroundColor = "#00000066"
         tbStyle.textAlign = "left"
         tbStyle.borderCollapse = "collapse"
-
-
     }
     
-    async getTopPlayersArray(dateStart, dateEnd, infoList){
-        
-        const dataObj = await api.useApi(dateStart, dateEnd, infoList)
+    apiDataRequest() { // busca os valores das colunas desejadas e retorna os dados dessas colunas
+        // Buscar quais tabelas estão selecionadas
+        let casinoBetsArray = document.querySelectorAll('input[type="checkbox"].tableCheckCasino')
+        var sportBetsArray = document.querySelectorAll('input[type="checkbox"].tableCheckSports')
+        let userBetsArray = document.querySelectorAll('input[type="checkbox"].tableCheckUsers')
+        let storingArray = []
+        let apiCallValidation = false
 
-        // Retorna uma array com a as informações agrupadas pelo id do Apostador
-        function getApiArrays(choice = 2) {
+        function aaaaa(arr){
 
-            if(choice == 1){ // Esportes
-                var column = dataObj.map(function(innerContent) {
-                    return [
-                        innerContent.user_id.slice(), innerContent.bet_value.slice(), innerContent.bet_result.slice(), innerContent.total_odd_multiplier.slice() 
-                    ]
-                })
+            for (var boxes of arr) {
+                storingArray.push(boxes.checked)
+                if(boxes.checked == true){
+                    apiCallValidation = true
+                }
+            }
                 
-                let map = column.reduce(
-                    (accumulator, [id, value, condition, multi]) => {
-                        accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
-                    
-                        accumulator[id].count++;
-                        if(condition != "Pendent"){
-                            if (condition == "Cashout" ) {
-                                accumulator[id].positiveValue += Number(value)
-                            }
-                            else {
-                                accumulator[id].positiveValue += Number(value)
-                                accumulator[id].negativeValue += Number(value) * multi
-                            }
-                        }
-        
-                        return accumulator
-                    },
-                {})
-                return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
+            if(apiCallValidation){
+                // pegar data para usar a função useApi()
             }
 
-            else if(choice == 2){ // Casino
-
-                var column = dataObj.list.map(function(innerContent) {
-                    return [
-                        innerContent.player_id.slice(), innerContent.value.slice(), innerContent.operation_id.slice() 
-                     ]
-                })
-    
-                let map = column.reduce( 
-                    (accumulator, [id, value, condition]) => {
-                        accumulator[id] = accumulator[id] || {count: 0, positiveValue: 0, negativeValue: 0}
-                    
-                        accumulator[id].count++;
-                        if (condition == "101") {
-                        accumulator[id].positiveValue += Number(value)
-                        }
-                        else {
-                        accumulator[id].negativeValue += Number(value)
-                        }
-        
-                        return accumulator
-                    },
-                {})
-                return Object.entries(map).map(([ id, { positiveValue, negativeValue, count }]) => [id, positiveValue, negativeValue, count])
-            }
         }
-        // Consfigurando para ficar uma array com a adição do objeto com a soma das colunas solicitadas
-        let faturamento = getApiArrays(infoList)
         
-        // Retorna o array de getApiArrays, junto ao  
-        faturamento = faturamento.map(([id, positiveValue, negativeValue, count]) =>{
-            const combinedValue = positiveValue - negativeValue
-            return [
-                id,
-                positiveValue, 
-                negativeValue, 
-                count, 
-                combinedValue,
-            ]
-        })
-        
-        // Ordenar em ordem decrescente
-        faturamento.sort((a,b) => b[Number(4)] - a[Number(4)])
 
-        return faturamento
-    }
+
+        
+
+        // Buscar os dados na API
+        // Organizar dados em agrupamento ... ?
+        // Exibir as tabelas
+    }   
 
     async formactTable(dataChoice){ // Configurar as tabelas e deixar de forma bonita
         // Pega os dados dos input com os Ids abaixo
