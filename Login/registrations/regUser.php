@@ -2,6 +2,7 @@
     include '../autoload.php';
     $head = new head();
     $user = new user();
+    $conn = new connection();
 
     $head->secure();    
     $head->setTitle("Novo Usuário");
@@ -9,7 +10,7 @@
     $data = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
     if(!empty($data['sendSignUp'])){
-        $dbValidation = $user->connection();
+        $dbValidation = $conn->getConnection();
 
         if($dbValidation == true){
             if($data['confirmPsw'] === $data['password']){

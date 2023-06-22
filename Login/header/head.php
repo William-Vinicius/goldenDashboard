@@ -21,15 +21,15 @@
             }
 
 
+            elseif(file_exists('../' . $url)){
+                header('Location: ' . "../$url", true, $permanent ? 301 : 302);
+                exit();
+            }
+
             elseif(file_exists('./' . $url)){
                 header('Location: ' . $url, true, $permanent ? 301 : 302);
                 exit();
             }
-            elseif(file_exists('../' . $url)){
-                header('Location: ' . $url, true, $permanent ? 301 : 302);
-                exit();
-            }
-    
             
             elseif(file_exists('../registrations/' . $url)){
                 header('Location: ' . $url, true, $permanent ? 301 : 302);

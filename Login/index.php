@@ -29,9 +29,9 @@
                     <a href="tables/topBets.php">
                         <li class="redirect bt-color"> Teste das Tabelas </li>
                     </a>
-                    <!-- <a href="#pg3">
-                        <li class="redirect bt-color"> Popularidade dos Cassinos </li>
-                    </a> -->
+                    <a href="tests/">
+                        <li class="redirect bt-color"> Página de testes JS </li>
+                    </a>
                 </ul>
                 <!-- <ul class="pages">
 
